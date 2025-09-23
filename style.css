@@ -2,10 +2,7 @@
   --orange: #e8ba71;   /* Orange */
   --dunkelblau: #213e60; /* Dunkelblau */
   --beige: #d8d1bd; /* Beige */
-  --weiss: #f4f2ef
-  font-family: "aptly", sans-serif;
 }
-
 body {
     margin: 0;
     padding: 0;
@@ -16,6 +13,9 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+
+    font-family: 'aptly', sans-serif;
+
 }
 
 h1 {
@@ -37,13 +37,15 @@ h2 {
 
 };
 
-
-.titelweiss {
-    color: var(--weiss)
+input[type="date"] {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 2px solid var(--dunkelblau);
+    border-radius: 5px;
 }
 
-
-button {
+.yes-button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 40px;
@@ -51,6 +53,7 @@ button {
     background-color: var(--orange);
     border: none;
     border-radius: 5px;
+    font-family: 'aptly', sans-serif;
 }
 
 .ort {
@@ -61,3 +64,17 @@ button {
     right: 10px;
 }
 
+.dropdown-info {
+  width: 48%;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.dropdown-info label {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 2rem;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 0.3rem;
+}

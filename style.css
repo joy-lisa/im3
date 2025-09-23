@@ -2,8 +2,10 @@
   --orange: #e8ba71;   /* Orange */
   --dunkelblau: #213e60; /* Dunkelblau */
   --beige: #d8d1bd; /* Beige */
+  --weiss: #f4f2ef
   font-family: "aptly", sans-serif;
 }
+
 body {
     margin: 0;
     padding: 0;
@@ -35,13 +37,11 @@ h2 {
 
 };
 
-input[type="date"] {
-    margin-top: 10px;
-    padding: 5px 10px;
-    font-size: 16px;
-    border: 2px solid var(--dunkelblau);
-    border-radius: 5px;
+
+.titelweiss {
+    color: var(--weiss)
 }
+
 
 button {
     margin-top: 20px;

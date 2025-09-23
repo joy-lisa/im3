@@ -1,47 +1,55 @@
 [
   {
+    "id": "1",
     "ort": "brienz",
     "long": 8.09,
     "lat": 46.75
   },
   
   {
+    "id": "2",
     "ort": "interlaken",
     "long": 7.88,
     "lat": 46.68
   },
 
   {
+    "id": "3",
     "ort": "thun",
     "long": 7.61,
     "lat": 46.76
   },
 
   {
+    "id": "4",
     "ort": "bern",
     "long": 7.45,
     "lat": 46.76
   },
 
   {
+   "id": "5",
     "ort": "hagneck",
    "long": 7.18,
    "lat": 47.06
   },
 
   {
+    "id": "6",
     "ort": "biel",
     "long": 7.28,
     "lat": 47.12
   },
 
   {
+    "id": "7",
     "ort": "olten",
     "long": 7.90,
     "lat": 47.35
 },
 
 {
+    "id": "8",
     "ort": "brugg ag",
     "long": 8.19,
     "lat": 47.48

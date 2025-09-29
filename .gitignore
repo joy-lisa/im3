@@ -21,4 +21,4 @@ rad.json
 #Test results file
 TestResults.xml
 *.sftp.json
-config.php
+*config.php

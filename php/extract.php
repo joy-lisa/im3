@@ -14,25 +14,33 @@
   10) Fehlerfälle: Exception/Fehlerobjekt nach oben reichen (kein HTML ausgeben).
    ============================================================================ */
 
-function fetchWeatherData()
+function fetchAareData()
 {
-    $url = "https://api.open-meteo.com/v1/forecast?latitude=46.9481,46.8499,47.3667&longitude=7.4474,9.5329,8.55&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,showers,snowfall,cloud_cover&temperature_unit=fahrenheit&timezone=auto&forecast_days=1";
+    $url = "https://aareguru.existenz.ch/v2018/widget";
 
     // Initialisiert eine cURL-Sitzung
+$ch = curl_init($url);
 
-
-    // Setzt Optionen
-
+    // Setzt Optionen -> wie man sachen anschaut
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     // Führt die cURL-Sitzung aus und erhält den Inhalt
-
+$response = curl_exec($ch);
+echo $response;
 
     // Schließt die cURL-Sitzung
-
+curl_close($ch);
 
     // Dekodiert die JSON-Antwort und gibt Daten zurück
+   $data = json_decode($response, true);
+    // echo "<br><br>";
+   //  echo($data);
+   //  echo "<br><br>";
+    // print_r($data); 
+    return $data;
+
 
 }
 
 // Gibt die Daten zurück, wenn dieses Skript eingebunden ist
-return fetchWeatherData();
+return fetchAareData();

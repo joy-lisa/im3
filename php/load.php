@@ -17,26 +17,32 @@
 // Transformations-Skript  als 'transform.php' einbinden
 include ('transform.php');
 print_r($transformedData);
-// Dekodiere die JSON-Daten zu einem Array
 
 // Binde die Datenbankkonfiguration ein
 require_once ('../config.php');
 
-// try {
-//     // Erstellt eine neue PDO-Instanz mit der Konfiguration aus config.php
+try {
 
+    // Erstellt eine neue PDO-Instanz mit der Konfiguration aus config.php
+      $pdo = new PDO($dsn, $username, $password, $options);
 
-//     // SQL-Query mit Platzhaltern für das Einfügen von Daten
-//     $sql = "";
+    // SQL-Query mit Platzhaltern für das Einfügen von Daten
+     $sql  = "INSERT INTO `Daten_Temp` (`orte`, `aare_temp`, `timestamp`)
+         VALUES (:orte, :aare_temp, :timestamp)";
 
-//     // Bereitet die SQL-Anweisung vor
-//     $stmt = $pdo->prepare($sql);
+    // Bereitet die SQL-Anweisung vor
+      $stmt = $pdo->prepare($sql);
 
-//     // Fügt jedes Element im Array in die Datenbank ein
-//     foreach ($dataArray as $item) {
-//     }
+    // Fügt jedes Element im Array in die Datenbank ein
+    foreach ($transformedData as $item) {
+        $stmt->execute([
+            ':orte'      => $item['orte'],
+            ':aare_temp' => $item['aare_temp'],
+            ':timestamp' => $item['timestamp'],
+        ]);
+    }
 
-//     echo "Daten erfolgreich eingefügt.";
-// } catch (PDOException $e) {
-//     die("Verbindung zur Datenbank konnte nicht hergestellt werden: " . $e->getMessage());
-// }
+    echo "Daten erfolgreich eingefügt.";
+} catch (PDOException $e) {
+    die("Verbindung zur Datenbank konnte nicht hergestellt werden: " . $e->getMessage());
+}

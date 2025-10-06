@@ -1,50 +1,69 @@
 <?php
-
-/* ============================================================================
-   HANDLUNGSANWEISUNG (transform.php)
-   0) Schau dir die Rohdaten genau an und plane exakt, wie du die Daten umwandeln möchtest (auf Papier)
-   1) Binde extract.php ein und erhalte das Rohdaten-Array.
-   2) Definiere Mapping Koordinaten → Anzeigename (z. B. Bern/Chur/Zürich).
-   3) Konvertiere Einheiten (z. B. °F → °C) und runde sinnvoll (Celsius = (Fahrenheit - 32) * 5 / 9).
-   4) Leite eine einfache "condition" ab (z. B. sonnig/teilweise bewölkt/bewölkt/regnerisch).
-   5) Baue ein kompaktes, flaches Array je Standort mit den Ziel-Feldern.
-   6) Optional: Sortiere die Werte (z. B. nach Zeit), entferne irrelevante Felder.
-   7) Validiere Pflichtfelder (location, temperature_celsius, …).
-   8) Kodieren: json_encode(..., JSON_PRETTY_PRINT) → JSON-String.
-   9) GIB den JSON-String ZURÜCK (return), nicht ausgeben – für den Load-Schritt.
-  10) Fehlerfälle als Exception nach oben weiterreichen (kein HTML/echo).
-   ============================================================================ */
-
-// Bindet das Skript extract.php für Rohdaten ein und speichere es in $data
-$data = include('extract.php');
-
-// Definiert eine Zuordnung von Koordinaten zu Stadtnamen
-$locationsMap = [
-    '46.94,7.44' => 'Bern',
-    '46.84,9.52' => 'Chur',
-    '47.36,8.559999' => 'Zürich',
-];
-
-// Funktion, um Fahrenheit in Celsius umzurechnen
-
-// Neue Funktion zur Bestimmung der Wetterbedingung
+declare(strict_types=1);
 
 
+// oder db.php, bootstrap.php, etc.
 
-// Initialisiert ein Array, um die transformierten Daten zu speichern
-$transformedData = [];
+// Rohdaten aus extract.php laden
+$AareData = include 'extract.php';
 
-// Transformiert und fügt die notwendigen Informationen hinzu
-foreach ($data as $location) {
-    // Bestimmt den Stadtnamen anhand von Breitengrad und Längengrad
-
-    // Wandelt die Temperatur in Celsius um und rundet sie
-
-    // Bestimmt die Wetterbedingung
-
-    // Konstruiert die neue Struktur mit allen angegebenen Feldern, einschließlich des neuen 'condition'-Feldes
+// Falls extract.php JSON liefert → dekodieren
+if (is_string($AareData)) {
+    $data = json_decode($AareData, true, 512, JSON_THROW_ON_ERROR);
+} else {
+    $data = $AareData;
 }
 
-// Kodiert die transformierten Daten in JSON
+if (!is_array($data)) {
+    throw new RuntimeException('Unerwartetes Datenformat aus extract.php – erwartet Array oder JSON-String.');
+}
 
-// Gibt die JSON-Daten zurück, anstatt sie auszugeben
+/** @var array<string,string> $keyToName Mapping: key → name */
+$keyToName = [];
+foreach ($data['cities'] ?? [] as $city) {
+    if (isset($city['key'], $city['name'])) {
+        $keyToName[(string)$city['key']] = (string)$city['name'];
+    }
+}
+
+/** @var array<int,array{orte:string,aare_temp:float,timestamp:string}> $transformedData */
+$transformedData = [];
+
+// Transformation: nur orte, aare_temp, timestamp
+foreach (($data['values'] ?? []) as $key => $obj) {
+    if (!is_array($obj)) {
+        continue;
+    }
+
+    if (!array_key_exists('temperature', $obj) || $obj['temperature'] === null) {
+        // aare_temp ist NOT NULL → ohne Temperatur überspringen
+        continue;
+    }
+
+    // Ortsname aus Mapping, Fallback: key
+    $orte = $keyToName[$key] ?? (string)$key;
+
+    // varchar(11): sicherheitshalber hart kürzen
+    $orte = mb_substr($orte, 0, 11, 'UTF-8');
+
+    // Temperatur runden (DECIMAL(11,1))
+    $aareTemp = round((float)$obj['temperature'], 1);
+
+    // UNIX → 'Y-m-d H:i:s' (UTC) für TIMESTAMP-Spalte
+    $tsUnix = isset($obj['timestamp']) ? (int)$obj['timestamp'] : null;
+    $ts     = $tsUnix ? gmdate('Y-m-d H:i:s', $tsUnix) : gmdate('Y-m-d H:i:s');
+
+    $transformedData[] = [
+        'orte'      => $orte,
+        'aare_temp' => $aareTemp,
+        'timestamp' => $ts,
+    ];
+    // echo "✅ Transformiert: $orte, $aareTemp, $ts\n";
+}
+
+// Nichts zu tun?
+if ($transformedData === []) {
+    echo "ℹ️ Keine gültigen Datensätze gefunden. Abbruch.\n";
+    return;
+}
+

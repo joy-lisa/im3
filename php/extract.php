@@ -26,7 +26,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     // Führt die cURL-Sitzung aus und erhält den Inhalt
 $response = curl_exec($ch);
-echo $response;
+// echo $response;
 
     // Schließt die cURL-Sitzung
 curl_close($ch);
@@ -38,7 +38,6 @@ curl_close($ch);
    //  echo "<br><br>";
     // print_r($data); 
     return $data;
-
 
 }
 

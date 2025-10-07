@@ -27,8 +27,8 @@ try {
       $pdo = new PDO($dsn, $username, $password, $options);
 
     // SQL-Query mit Platzhaltern für das Einfügen von Daten
-     $sql  = "INSERT INTO `Daten_Temp` (`orte`, `aare_temp`, `timestamp`)
-         VALUES (:orte, :aare_temp, :timestamp)";
+     $sql  = "INSERT INTO `Daten_Temp` (`orte`, `aare_temp`)
+         VALUES (:orte, :aare_temp)";
 
     // Bereitet die SQL-Anweisung vor
       $stmt = $pdo->prepare($sql);
@@ -38,7 +38,6 @@ try {
         $stmt->execute([
             ':orte'      => $item['orte'],
             ':aare_temp' => $item['aare_temp'],
-            ':timestamp' => $item['timestamp'],
         ]);
     }
 

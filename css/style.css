@@ -13,7 +13,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
 
     font-family: 'aptly', sans-serif;
 
@@ -23,6 +23,11 @@ button, input, select, textarea {
   font-family: inherit;
 }
 
+.titel {
+    position: relative; /* oder einfach weglassen */
+    text-align: center;
+    margin-top: 50px;
+}
 
 h1 {
     color: var(--dunkelblau);
@@ -33,13 +38,94 @@ h1 {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    
 }
 
-h2 {
+/* h2 {
     font-size: 20px;
     color: var(--dunkelblau);
     margin: 10px;
+} */
+
+
+/*index.html*/
+
+/*class mit h2*/
+.subtitle {
+    color: var(--dunkelblau);
+    font-size: clamp(18px, 2vw, 28px); /* responsive Schriftgröße */
+    font-weight: 700;
+    text-align: center;
+    margin: 2rem 1rem; /* Abstand zum Titel und Seitenrand */
+    max-width: 90%; /* Text bricht bei kleinen Screens um */
+
+}
+
+.all-elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+/*decision.html*/
+
+h2.titelentscheid {
+    color: var(--dunkelblau);
+    text-align: center;
+    font-family: 'Aptly', sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    /* Positionierung oben am Bildschirm */
+    position: fixed;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+/* Container für die beiden Divs */
+.entscheidungscontainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10rem;
+  flex-wrap: wrap; /* erlaubt Umbruch bei schmalem Bildschirm */
+}
+
+.select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} 
+
+.wohere {
+    color: var(--dunkelblau);
+    text-align: center;
+    font-family: 'Aptly', sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.stufe {
+    color: var(--dunkelblau);
+    text-align: center;
+    font-family: 'Aptly', sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0px;
+}
+
+.gfroerlistufen {
+    margin: 20px 0;
 }
 
 .date-label {
@@ -59,12 +145,13 @@ input[type="date"] {
 
 
 /*buttons*/
+
 .yes-button {
     width: 338px;
     height: 97px;
     border-radius: 20px;
-    border: 4px solid var(--light-orange, #E8BA71);
-    background: var(--white, #F4F2EF);
+    border: 4px solid var(--orange, #E8BA71);
+    background: var(--weiss, #F4F2EF);
     flex-shrink: 0;
 
     /* shadow button */
@@ -76,15 +163,47 @@ input[type="date"] {
     font-style: normal;
     line-height: normal;
     color: var(--orange);
+
+    /* Positionierung unten am Bildschirm */
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
+
+.zruegg-button {
+    width: 137px;
+    height: 51px;
+    border-radius: 20px;
+    border: 4px solid var(--dunkelblau);
+    background: var(--weiss, #F4F2EF);
+
+    /* shadow button */
+    box-shadow: 0 0 13px 4px var(--dunkelblau) inset;
+
+    /*font*/
+    color: var(--dunkelblau);
+    text-align: center;
+    font-family: Aptly;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    /* Positionierung oben links */
+    position: fixed; /* bleibt beim Scrollen sichtbar */
+    top: 50px;       /* Abstand vom oberen Rand */
+    left: 50px;      /* Abstand vom linken Rand */
+    z-index: 100;    /* damit nichts drüberliegt */
+}   
 
 .findsuse-button {
     width: 338px;
     height: 97px;
-    flex-shrink: 0;
     border-radius: 20px;
-    border: 4px solid var(--light-orange, #E8BA71);
-    background: var(--white, #F4F2EF);
+    border: 4px solid var(--orange, #E8BA71);
+    background: var(--weiss, #F4F2EF);
 
     /* shadow button */
     box-shadow: 0 0 13px 4px #E8BA71 inset;
@@ -95,15 +214,21 @@ input[type="date"] {
     font-style: normal;
     line-height: normal;
     color: var(--orange);
+
+    /* Positionierung unten am Bildschirm */
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
 
-.gfroerli-button {
+.auswahlbutton {
     width: 111px;
     height: 113px;
     border-radius: 20px;
-    border: 4px solid var(--light-orange, #E8BA71);
-    background: var(--white, #F4F2EF);
-
+    border: 4px solid var(--orange, #E8BA71);
+    background: var(--weiss, #F4F2EF);
 
     /* shadow button */
     box-shadow: 0 0 13px 4px #E8BA71 inset;
@@ -117,43 +242,13 @@ input[type="date"] {
 
 }
 
-.solala-button {
-    width: 111px;
-    height: 113px;
-    border-radius: 20px;
-    border: 4px solid var(--light-orange, #E8BA71);
-    background: var(--white, #F4F2EF);
-
-
-    /* shadow button */
-    box-shadow: 0 0 13px 4px #E8BA71 inset;
-
-    /*font*/
-    font-size: 19px;
-    font-weight: 700;
-    font-style: normal;
-    line-height: normal;
-    color: var(--orange);
+.auswahlbutton.active {
+    background: var(--dunkelblau);
+    color: var(--weiss);
+  /* border-color: #007bff; */
+  /* box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); */
 }
 
-.hertimnae-button {
-    width: 111px;
-    height: 113px;
-    border-radius: 20px;
-    border: 4px solid var(--light-orange, #E8BA71);
-    background: var(--white, #F4F2EF);
-
-
-    /* shadow button */
-    box-shadow: 0 0 13px 4px #E8BA71 inset;
-
-    /*font*/
-    font-size: 19px;
-    font-weight: 700;
-    font-style: normal;
-    line-height: normal;
-    color: var(--orange);
-}
 
 .gfroerlistufen {
     display: grid;
@@ -162,30 +257,26 @@ input[type="date"] {
     margin-top: 20px;
 }
 
-.ort {
-    font-size: 12px;
-    color: var(--dunkelblau);
-    display: flex;
-    justify-content: center;
-    right: 10px;
-}
+/*dropdown*/
 
-.dropdown-info {
-  width: 48%;
-  margin-top: 2rem;
-  text-align: center;
-}
+#orte {
+    width: 338px;
+    height: 56px;
+    flex-shrink: 0;
+    margin: 20px 0;
+    border-radius: 15px;
+    border: 4px solid var(--orange);
+    background: var(--weiss);
 
-.dropdown-info label {
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 2rem;
-  color: var(--orange);
-  display: block;
-  margin-bottom: 0.3rem;
-}
+    /* shadow button */
+    box-shadow: 0 0 13px 4px var(--orange) inset;
 
-.gfingsuse {
-    padding: 50px;
-    margin: 20px;
+    /*font*/
+    color: var(--orange);
+    font-family: Aptly;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding-left: 21px;
 }

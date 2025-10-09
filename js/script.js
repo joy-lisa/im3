@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Chart.js
 
-let myChart = document.querySelector("#myAareChart");
+let myAareChart = document.querySelector("#myAareChart");
 
 const DATA_COUNT = 12;
 const labels = [];
@@ -78,20 +78,20 @@ const data = {
     {
       label: 'Cubic interpolation (monotone)',
       data: datapoints,
-      borderColor: Utils.CHART_COLORS.red,
+      borderColor: 'red',
       fill: false,
       cubicInterpolationMode: 'monotone',
       tension: 0.4
     }, {
       label: 'Cubic interpolation',
       data: datapoints,
-      borderColor: Utils.CHART_COLORS.blue,
+      borderColor: 'blue',
       fill: false,
       tension: 0.4
     }, {
       label: 'Linear interpolation (default)',
       data: datapoints,
-      borderColor: Utils.CHART_COLORS.green,
+      borderColor: 'green',
       fill: false
     }
   ]

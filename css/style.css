@@ -154,7 +154,7 @@ body.result-body {
 
 .result-footer {
     background-color: var(--weiss);
-    width: 792px;
+    width: 792px auto;
     bottom: 0px;
     padding: 20px 0px 20px 0px;
     text-align: center;

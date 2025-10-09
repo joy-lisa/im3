@@ -66,7 +66,7 @@ function createChart() {
       datasets: [{
         label: 'Temperatur',
         data: [],
-        borderColor: 'red',
+        borderColor: '#213e60',
         fill: false,
         tension: 0.4,
         spanGaps: true

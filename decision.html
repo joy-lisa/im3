@@ -43,17 +43,64 @@
   </div>
 
   <p>
-  <div class="findsuse">
-    <a href="result.html">
-    <button class="findsuse-button">FINDS USE!</button>
-    </a>
-  </div>
+    <div class="findsuse">
+      <button id="findsuse-btn" class="findsuse-button" type="button">FINDS USE!</button>
+    </div>
+    
   </p>
 
   <canvas id="myAareChart"></canvas>
 
 
-  <script src="js/orte.js"></script>
+  <!-- <script src="js/orte.js"></script> -->
+
+  <!-- <script>
+    const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
+    
+    const $select = document.getElementById('orte');
+    const $goBtn  = document.querySelector('.findsuse-button');
+    const stufeBtns = Array.from(document.querySelectorAll('.auswahlbutton'));
+    let selectedStufe = '';
+    
+    // 1) fill dropdown from API
+    fetch(API_URL, { cache: 'no-store' })
+      .then(r => r.json())
+      .then(rows => {
+        const orte = [...new Set(rows.map(r => r.orte))].sort((a,b)=>a.localeCompare(b,'de'));
+        $select.innerHTML = '<option value="" disabled selected> uswau vom ort </option>';
+        orte.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = opt.textContent = o;
+          $select.appendChild(opt);
+        });
+      })
+      .catch(e => console.error('Fehler beim Laden der Orte:', e));
+    
+    // 2) stufe selection (toggle UI state)
+    stufeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedStufe = btn.dataset.value || '';
+        stufeBtns.forEach(b => b.classList.toggle('active', b === btn));
+      });
+    });
+    
+    // 3) redirect with query params
+    $goBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // avoid navigating via <a> wrapper
+      const ort = $select.value;
+      if (!ort) { alert('Bitte Ort auswählen'); return; }
+      const qs = new URLSearchParams({ ort, stufe: selectedStufe }).toString();
+      window.location.href = `result.html?${qs}`;
+    });
+    
+    // make the whole button act, not the nested <a>
+    document.querySelector('.findsuse a')?.addEventListener('click', ev => ev.preventDefault());
+    </script> -->
+    
+    <!-- decision.html (add this right before </body>) -->
+<script src="js/decision.js"></script>
+
+
 </body>
 
 </html>

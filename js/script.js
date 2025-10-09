@@ -1,6 +1,15 @@
-// --- NEU: Cache & Helper ---
-let __allRows = []; // [{ort, ts(sec), temp}...]
+// js/script.js (ES module)
 
+// ===== Config =====
+const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
+
+// ===== In-memory cache =====
+let __rowsCache = {
+  rows: /** @type {Array<{ort:string, ts:number, temp:number}>} */ ([]),
+  fetchedAt: 0,
+};
+
+// ===== Helpers =====
 function pickTemp(o) {
   const v = o?.temperature ?? o?.aare_temp ?? o?.temp ?? o?.water_temp ?? o?.tt;
   const n = Number(v);
@@ -8,14 +17,54 @@ function pickTemp(o) {
 }
 
 function toUnix(t) {
-  if (typeof t === 'number') return t > 1e12 ? Math.floor(t / 1000) : t; // ms->s
+  if (typeof t === 'number') return t > 1e12 ? Math.floor(t / 1000) : t; // ms -> s
   const d = new Date(t);
   return Number.isFinite(d.getTime()) ? Math.floor(d.getTime() / 1000) : NaN;
 }
 
-// Für einen Ort + Tagesfenster (00:00–24:00) eine 25er Serie bauen (pro Stunde letzter Wert)
-function seriesForOrtAndDay(ort, startSec, endSec) {
-  const rows = __allRows.filter(r => r.ort === ort && r.ts >= startSec && r.ts <= endSec);
+// normalize various API shapes into [{ort, ts, temp}]
+function normalizeApiData(data) {
+  const asArray =
+    Array.isArray(data) ? data :
+    Array.isArray(data?.data) ? data.data :
+    Array.isArray(data?.rows) ? data.rows :
+    [];
+
+  const norm = [];
+  for (const r of asArray) {
+    const ort = (r?.ort ?? r?.orte ?? r?.city ?? r?.name ?? r?.key ?? "").toString().trim();
+    const temp = pickTemp(r);
+    const ts   = toUnix(r?.timestamp ?? r?.time ?? r?.datetime ?? r?.date);
+    if (!ort || temp == null || !Number.isFinite(ts)) continue;
+    norm.push({ ort, ts, temp });
+  }
+
+  // fallbacks if needed (keys like data.values or cities)
+  if (!norm.length) {
+    if (data?.values && typeof data.values === "object") {
+      for (const [key, v] of Object.entries(data.values)) {
+        const ort = (v?.name ?? v?.displayName ?? key).toString().trim();
+        const temp = pickTemp(v);
+        const ts   = toUnix(v?.timestamp ?? v?.time ?? v?.datetime ?? v?.date);
+        if (ort && temp != null && Number.isFinite(ts)) norm.push({ ort, ts, temp });
+      }
+    } else if (Array.isArray(data?.cities)) {
+      for (const c of data.cities) {
+        const ort = (c?.name ?? c?.key ?? "").toString().trim();
+        const temp = pickTemp(c);
+        const ts   = toUnix(c?.timestamp ?? c?.time ?? c?.datetime ?? c?.date);
+        if (ort && temp != null && Number.isFinite(ts)) norm.push({ ort, ts, temp });
+      }
+    }
+  }
+
+  norm.sort((a, b) => a.ts - b.ts);
+  return norm;
+}
+
+// Build a 25-point series (00:00–24:00, last value per hour)
+function seriesForOrtAndDay(rows, ort, startSec, endSec) {
+  const filtered = rows.filter(r => r.ort === ort && r.ts >= startSec && r.ts <= endSec);
 
   const hourKey = (ts) => {
     const d = new Date(ts * 1000);
@@ -27,7 +76,7 @@ function seriesForOrtAndDay(ort, startSec, endSec) {
   };
 
   const map = new Map();
-  for (const r of rows) map.set(hourKey(r.ts), r.temp); // letzter gewinnt
+  for (const r of filtered) map.set(hourKey(r.ts), r.temp); // last wins
 
   const values = [];
   for (let h = 0; h <= 24; h++) {
@@ -35,146 +84,166 @@ function seriesForOrtAndDay(ort, startSec, endSec) {
     const d = new Date(ts * 1000);
     const k = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}`;
     const v = map.get(k);
-    values.push(Number.isFinite(v) ? v : null); // null = Lücke
+    values.push(Number.isFinite(v) ? v : null);
   }
   return values;
 }
 
+// ===== Public: single async fetch you can call when needed =====
+/**
+ * Fetch Aare rows with tiny cache.
+ * @param {{force?: boolean, ttlMs?: number}} [opts]
+ * @returns {Promise<Array<{ort:string, ts:number, temp:number}>>}
+ */
+export async function fetchAareRows(opts = {}) {
+  const { force = false, ttlMs = 60_000 } = opts; // default: 60s cache
+  const now = Date.now();
 
-//api url https://im3hs25.jannastutz.ch/php/unload.php
-
-
-
-
-
-fetch('https://im3hs25.jannastutz.ch/php/unload.php')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('Fehler beim Abrufen der Daten:', error);
-  });
-
-  
-//Dropdown
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const select = document.getElementById("orte");
-  const dateInput = document.getElementById("datum"); // <input type="date" id="datum">
-  
-  //const button = document.getElementById("anzeigen-btn");
-
-  try {
-    const response = await fetch("php/unload.php"); // dein Backend-Endpunkt
-    if (!response.ok) throw new Error("Serverfehler: " + response.status);
-
-    const data = await response.json(); // erwartet z. B. [{ ort: "Berlin" }, { ort: "Hamburg" }]
-
-    // Dropdown befüllen & nicht doppelt befüllen
-    const orteSet = new Set(data.map(item => item.orte)); // Duplikate entfernen
-
-    orteSet.forEach(ort => {
-      const option = document.createElement("option");
-      option.value = ort;
-      option.textContent = ort;
-      select.appendChild(option);
-    });
-
-  } catch (error) {
-    console.error("Fehler beim Laden der Orte:", error);
+  if (!force && __rowsCache.rows.length && (now - __rowsCache.fetchedAt) < ttlMs) {
+    return __rowsCache.rows;
   }
 
-  // // Button-Klick: zur neuen Seite weiterleiten
-  // button.addEventListener("click", () => {
-  //   const ort = select.value;
-  //   if (!ort) {
-  //     alert("Bitte wähle einen Ort aus!");
-  //     return;
-  //   }
-  // });
+  const res = await fetch(API_URL, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Serverfehler: ${res.status}`);
+  const raw = await res.json();
+  const rows = normalizeApiData(raw);
 
-});
+  __rowsCache = { rows, fetchedAt: now };
+  return rows;
+}
 
+// ===== UI wiring (dropdown, date, chart) =====
+const $select = document.getElementById('orte');
+const $date   = document.getElementById('date'); // HTML uses id="date"
+const $canvas = document.getElementById('myAareChart');
 
-// Chart.js
-let myAareChart = document.querySelector("#myAareChart");
+const LABELS_25 = Array.from({ length: 25 }, (_, i) => `${String(i).padStart(2,'0')}:00`);
+const datapoints = [];
 
-const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
-async function loadAareDaten() {
-  try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error('Netzwerkantwort war nicht ok' + response.status);
+const chartConfig = {
+  type: 'line',
+  data: {
+    labels: LABELS_25,
+    datasets: [{
+      label: 'ausgewählter Ort',
+      data: datapoints,
+      borderColor: 'red',
+      fill: false,
+      cubicInterpolationMode: 'monotone',
+      tension: 0.4
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: { display: true, text: 'Temperatur-Tabelle der Aare' },
+    },
+    interaction: { intersect: false },
+    scales: {
+      x: {
+        title: { display: true, text: 'zeitpunkt (in stunden)' },
+        ticks: { maxRotation: 90, minRotation: 90 }
+      },
+      y: {
+        title: { display: true, text: 'temperatur (in grad celsius)' },
+        suggestedMin: -5,
+        suggestedMax: 30
+      }
+    }
+  }
+};
 
-    const apiDaten = await response.json();
-    console.log("geladene Daten:", apiDaten);
-  } catch (error) {
-    console.error('Fehler beim Laden der Aare-Daten:', error);
+let chart;
+
+// Populate dropdown with unique Orte
+function fillDropdown(rows) {
+  const orte = Array.from(new Set(rows.map(r => r.ort))).sort((a, b) => a.localeCompare(b, 'de'));
+  $select.innerHTML = '';
+
+  // Placeholder
+  const ph = document.createElement('option');
+  ph.textContent = 'uswau vom ort';
+  ph.value = '';
+  ph.disabled = true;
+  ph.selected = true;
+  $select.appendChild(ph);
+
+  for (const ort of orte) {
+    const opt = document.createElement('option');
+    opt.value = ort;
+    opt.textContent = ort;
+    $select.appendChild(opt);
   }
 }
-    console.log("hello world");
 
-    const DATA_COUNT = 25;
-    const labels = [];
-    for (let i = 0; i < DATA_COUNT; i++) {
-      // wenn i = 0 → "00", wenn i = 1 → "01", usw.
-      const stunde = i.toString().padStart(2, "0"); // sorgt für führende Null
-      labels.push(`${stunde}:00`);
+// Render current selection
+async function renderSelected() {
+  if (!$select || !$date || !chart) return;
+  const ort = $select.value;
+  const day = $date.value; // "YYYY-MM-DD"
+  if (!ort || !day) return;
+
+  const start = new Date(`${day}T00:00:00`);
+  start.setHours(0,0,0,0);
+  const startSec = Math.floor(start.getTime() / 1000);
+  const endSec   = startSec + 24 * 3600;
+
+  const rows = await fetchAareRows(); // uses cache unless stale
+  const values = seriesForOrtAndDay(rows, ort, startSec, endSec);
+
+  // update dataset
+  datapoints.length = 0;
+  values.forEach(v => datapoints.push(v));
+  chart.data.datasets[0].label = `ausgewählter Ort: ${ort} (${day})`;
+
+  // auto y-range if we have numbers
+  const nums = values.filter(v => Number.isFinite(v));
+  if (nums.length) {
+    const min = Math.min(...nums), max = Math.max(...nums);
+    chart.options.scales.y.suggestedMin = Math.floor(min - 1);
+    chart.options.scales.y.suggestedMax = Math.ceil(max + 1);
+  }
+
+  chart.update();
+}
+
+// ===== Page init =====
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    // Pre-fill date (today) if empty
+    if ($date && !$date.value) {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm   = String(today.getMonth() + 1).padStart(2, '0');
+      const dd   = String(today.getDate()).padStart(2, '0');
+      $date.value = `${yyyy}-${mm}-${dd}`;
     }
-    const datapoints = [];
-    const data = {
-      labels: labels,
-      datasets: [
-        {
-          label: 'ausgewählter Ort',
-          data: datapoints,
-          borderColor: 'red',
-          fill: false,
-          cubicInterpolationMode: 'monotone',
-          tension: 0.4
-        },
-      ]
-    };
 
-    const config = {
-      type: 'line',
-      data: data,
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Temperatur-Tabelle der Aare'
-          },
-        },
-        interaction: {
-          intersect: false,
-        },
-        scales: {
-          x: {
-            display: true,
-            title: {
-              display: true,
-              text: 'zeitpunkt (in stunden)'
-            },
-            ticks: {
-              maxRotation: 90,   // verhindert Schrägstellung
-              minRotation: 90,   // verhindert automatische Drehung
-            }
-          },
-          y: {
-            display: true,
-            title: {
-              display: true,
-              text: 'temperatur (in grad celsius)'
-            },
-            suggestedMin: -5,
-            suggestedMax: 30
-          }
-        }
-      },
-    };
+    // Create chart instance
+    if ($canvas) chart = new Chart($canvas, chartConfig);
 
-    const chart = new Chart(myAareChart, config);
+    // Fetch once, fill dropdown, initial render
+    const rows = await fetchAareRows({ ttlMs: 60_000 });
+    fillDropdown(rows);
 
-  loadAareDaten();
+    // If there’s at least one Ort, select first real option
+    if ($select && $select.options.length > 1 && !$select.value) {
+      $select.selectedIndex = 1;
+    }
+
+    await renderSelected();
+
+    // Re-render on changes
+    $select?.addEventListener('change', renderSelected);
+    $date?.addEventListener('change', renderSelected);
+
+  } catch (err) {
+    console.error('Init-Fehler:', err);
+  }
+});
+
+// ===== Optional: manual refresh button could call this =====
+export async function refreshDataAndRender() {
+  await fetchAareRows({ force: true });
+  await renderSelected();
+}

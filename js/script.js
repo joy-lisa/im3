@@ -1,3 +1,53 @@
+//api url https://im3hs25.jannastutz.ch/php/unload.php
+
+fetch('https://im3hs25.jannastutz.ch/php/unload.php')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Fehler beim Abrufen der Daten:', error);
+  });
+
+  
+//Dropdown
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const select = document.getElementById("orte");
+  //const button = document.getElementById("anzeigen-btn");
+
+  try {
+    const response = await fetch("php/unload.php"); // dein Backend-Endpunkt
+    if (!response.ok) throw new Error("Serverfehler: " + response.status);
+
+    const data = await response.json(); // erwartet z. B. [{ ort: "Berlin" }, { ort: "Hamburg" }]
+
+    // Dropdown befüllen & nicht doppelt befüllen
+    const orteSet = new Set(data.map(item => item.orte)); // Duplikate entfernen
+
+    orteSet.forEach(ort => {
+      const option = document.createElement("option");
+      option.value = ort;
+      option.textContent = ort;
+      select.appendChild(option);
+    });
+
+  } catch (error) {
+    console.error("Fehler beim Laden der Orte:", error);
+  }
+
+  // // Button-Klick: zur neuen Seite weiterleiten
+  // button.addEventListener("click", () => {
+  //   const ort = select.value;
+  //   if (!ort) {
+  //     alert("Bitte wähle einen Ort aus!");
+  //     return;
+  //   }
+  // });
+
+});
+
+
 // Chart.js
 let myAareChart = document.querySelector("#myAareChart");
 

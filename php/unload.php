@@ -34,7 +34,7 @@ try {
     // Daten sammeln
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    print_r($data);
+    echo json_encode($data);
 
 } 
 

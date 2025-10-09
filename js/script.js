@@ -15,34 +15,25 @@ async function loadAareDaten() {
 }
     console.log("hello world");
 
-    const DATA_COUNT = 12;
+    const DATA_COUNT = 25;
     const labels = [];
-    for (let i = 0; i < DATA_COUNT; ++i) {
-      labels.push(i.toString());
+    for (let i = 0; i < DATA_COUNT; i++) {
+      // wenn i = 0 → "00", wenn i = 1 → "01", usw.
+      const stunde = i.toString().padStart(2, "0"); // sorgt für führende Null
+      labels.push(`${stunde}:00`);
     }
     const datapoints = [];
     const data = {
       labels: labels,
       datasets: [
         {
-          label: 'Cubic interpolation (monotone)',
+          label: 'ausgewählter Ort',
           data: datapoints,
           borderColor: 'red',
           fill: false,
           cubicInterpolationMode: 'monotone',
           tension: 0.4
-        }, {
-          label: 'Cubic interpolation',
-          data: datapoints,
-          borderColor: 'blue',
-          fill: false,
-          tension: 0.4
-        }, {
-          label: 'Linear interpolation (default)',
-          data: datapoints,
-          borderColor: 'green',
-          fill: false
-        }
+        },
       ]
     };
 
@@ -56,7 +47,7 @@ async function loadAareDaten() {
         plugins: {
           title: {
             display: true,
-            text: 'Chart.js Line Chart - Cubic interpolation mode'
+            text: 'Temperatur-Tabelle der Aare'
           },
         },
         interaction: {
@@ -66,14 +57,19 @@ async function loadAareDaten() {
           x: {
             display: true,
             title: {
-              display: true
+              display: true,
+              text: 'zeitpunkt (in stunden)'
+            },
+            ticks: {
+              maxRotation: 90,   // verhindert Schrägstellung
+              minRotation: 90,   // verhindert automatische Drehung
             }
           },
           y: {
             display: true,
             title: {
               display: true,
-              text: 'Value'
+              text: 'temperatur (in grad celsius)'
             },
             suggestedMin: -5,
             suggestedMax: 30

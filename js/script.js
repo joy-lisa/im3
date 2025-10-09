@@ -1,249 +1,171 @@
 // js/script.js (ES module)
 
-// ===== Config =====
 const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
-// ===== In-memory cache =====
-let __rowsCache = {
-  rows: /** @type {Array<{ort:string, ts:number, temp:number}>} */ ([]),
-  fetchedAt: 0,
-};
-
-// ===== Helpers =====
-function pickTemp(o) {
-  const v = o?.temperature ?? o?.aare_temp ?? o?.temp ?? o?.water_temp ?? o?.tt;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : null;
+// ===== Simple timestamp parser =====
+function parseTimestamp(timestamp) {
+  // "2025-10-09 00:02:23" -> Unix seconds (UTC)
+  const isoString = timestamp.replace(' ', 'T') + 'Z';
+  return Math.floor(new Date(isoString).getTime() / 1000);
 }
 
-function toUnix(t) {
-  if (typeof t === 'number') return t > 1e12 ? Math.floor(t / 1000) : t; // ms -> s
-  const d = new Date(t);
-  return Number.isFinite(d.getTime()) ? Math.floor(d.getTime() / 1000) : NaN;
+// ===== Fetch data from API =====
+async function fetchData() {
+  const response = await fetch(API_URL, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`Error: ${response.status}`);
+  return await response.json();
 }
 
-// normalize various API shapes into [{ort, ts, temp}]
-function normalizeApiData(data) {
-  const asArray =
-    Array.isArray(data) ? data :
-    Array.isArray(data?.data) ? data.data :
-    Array.isArray(data?.rows) ? data.rows :
-    [];
+// ===== Build 25-hour series for chart =====
+function buildSeries(data, location, selectedDate) {
+  // Parse selected date to get day boundaries (UTC)
+  const [year, month, day] = selectedDate.split('-').map(Number);
+  const dayStart = Date.UTC(year, month - 1, day, 0, 0, 0) / 1000;
+  const dayEnd = dayStart + 24 * 3600;
 
-  const norm = [];
-  for (const r of asArray) {
-    const ort = (r?.ort ?? r?.orte ?? r?.city ?? r?.name ?? r?.key ?? "").toString().trim();
-    const temp = pickTemp(r);
-    const ts   = toUnix(r?.timestamp ?? r?.time ?? r?.datetime ?? r?.date);
-    if (!ort || temp == null || !Number.isFinite(ts)) continue;
-    norm.push({ ort, ts, temp });
-  }
+  // Filter data for selected location and date
+  const filtered = data.filter(row => {
+    const ts = parseTimestamp(row.timestamp);
+    return row.orte === location && ts >= dayStart && ts <= dayEnd;
+  });
 
-  // fallbacks if needed (keys like data.values or cities)
-  if (!norm.length) {
-    if (data?.values && typeof data.values === "object") {
-      for (const [key, v] of Object.entries(data.values)) {
-        const ort = (v?.name ?? v?.displayName ?? key).toString().trim();
-        const temp = pickTemp(v);
-        const ts   = toUnix(v?.timestamp ?? v?.time ?? v?.datetime ?? v?.date);
-        if (ort && temp != null && Number.isFinite(ts)) norm.push({ ort, ts, temp });
-      }
-    } else if (Array.isArray(data?.cities)) {
-      for (const c of data.cities) {
-        const ort = (c?.name ?? c?.key ?? "").toString().trim();
-        const temp = pickTemp(c);
-        const ts   = toUnix(c?.timestamp ?? c?.time ?? c?.datetime ?? c?.date);
-        if (ort && temp != null && Number.isFinite(ts)) norm.push({ ort, ts, temp });
-      }
-    }
-  }
+  // Group by hour (keep last value per hour)
+  const hourlyData = new Map();
+  filtered.forEach(row => {
+    const ts = parseTimestamp(row.timestamp);
+    const date = new Date(ts * 1000);
+    const hour = date.getUTCHours();
+    hourlyData.set(hour, parseFloat(row.aare_temp));
+  });
 
-  norm.sort((a, b) => a.ts - b.ts);
-  return norm;
-}
-
-// Build a 25-point series (00:00–24:00, last value per hour)
-function seriesForOrtAndDay(rows, ort, startSec, endSec) {
-  const filtered = rows.filter(r => r.ort === ort && r.ts >= startSec && r.ts <= endSec);
-
-  const hourKey = (ts) => {
-    const d = new Date(ts * 1000);
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    const h = String(d.getHours()).padStart(2, '0');
-    return `${y}-${m}-${day} ${h}`;
-  };
-
-  const map = new Map();
-  for (const r of filtered) map.set(hourKey(r.ts), r.temp); // last wins
-
-  const values = [];
+  // Build 25-point array (00:00 to 24:00)
+  const series = [];
   for (let h = 0; h <= 24; h++) {
-    const ts = startSec + h * 3600;
-    const d = new Date(ts * 1000);
-    const k = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}`;
-    const v = map.get(k);
-    values.push(Number.isFinite(v) ? v : null);
+    series.push(hourlyData.get(h) ?? null);
   }
-  return values;
+  
+  return series;
 }
 
-// ===== Public: single async fetch you can call when needed =====
-/**
- * Fetch Aare rows with tiny cache.
- * @param {{force?: boolean, ttlMs?: number}} [opts]
- * @returns {Promise<Array<{ort:string, ts:number, temp:number}>>}
- */
-export async function fetchAareRows(opts = {}) {
-  const { force = false, ttlMs = 60_000 } = opts; // default: 60s cache
-  const now = Date.now();
-
-  if (!force && __rowsCache.rows.length && (now - __rowsCache.fetchedAt) < ttlMs) {
-    return __rowsCache.rows;
-  }
-
-  const res = await fetch(API_URL, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Serverfehler: ${res.status}`);
-  const raw = await res.json();
-  const rows = normalizeApiData(raw);
-
-  __rowsCache = { rows, fetchedAt: now };
-  return rows;
-}
-
-// ===== UI wiring (dropdown, date, chart) =====
-const $select = document.getElementById('orte');
-const $date   = document.getElementById('date'); // HTML uses id="date"
+// ===== UI Elements =====
+const $location = document.getElementById('orte');
+const $date = document.getElementById('date');
 const $canvas = document.getElementById('myAareChart');
 
-const LABELS_25 = Array.from({ length: 25 }, (_, i) => `${String(i).padStart(2,'0')}:00`);
-const datapoints = [];
+let chart;
+let apiData = [];
 
-const chartConfig = {
-  type: 'line',
-  data: {
-    labels: LABELS_25,
-    datasets: [{
-      label: 'ausgewählter Ort',
-      data: datapoints,
-      borderColor: 'red',
-      fill: false,
-      cubicInterpolationMode: 'monotone',
-      tension: 0.4
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      title: { display: true, text: 'Temperatur-Tabelle der Aare' },
+// ===== Chart config =====
+const HOUR_LABELS = Array.from({ length: 25 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
+
+function createChart() {
+  chart = new Chart($canvas, {
+    type: 'line',
+    data: {
+      labels: HOUR_LABELS,
+      datasets: [{
+        label: 'Temperatur',
+        data: [],
+        borderColor: 'red',
+        fill: false,
+        tension: 0.4,
+        spanGaps: true
+      }]
     },
-    interaction: { intersect: false },
-    scales: {
-      x: {
-        title: { display: true, text: 'zeitpunkt (in stunden)' },
-        ticks: { maxRotation: 90, minRotation: 90 }
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: 'Temperatur-Tabelle der Aare' }
       },
-      y: {
-        title: { display: true, text: 'temperatur (in grad celsius)' },
-        suggestedMin: -5,
-        suggestedMax: 30
+      scales: {
+        x: {
+          title: { display: true, text: 'Zeitpunkt (in Stunden)' },
+          ticks: { maxRotation: 90, minRotation: 90 }
+        },
+        y: {
+          title: { display: true, text: 'Temperatur (°C)' },
+          suggestedMin: 0,
+          suggestedMax: 20
+        }
       }
     }
-  }
-};
-
-let chart;
-
-// Populate dropdown with unique Orte
-function fillDropdown(rows) {
-  const orte = Array.from(new Set(rows.map(r => r.ort))).sort((a, b) => a.localeCompare(b, 'de'));
-  $select.innerHTML = '';
-
-  // Placeholder
-  const ph = document.createElement('option');
-  ph.textContent = 'uswau vom ort';
-  ph.value = '';
-  ph.disabled = true;
-  ph.selected = true;
-  $select.appendChild(ph);
-
-  for (const ort of orte) {
-    const opt = document.createElement('option');
-    opt.value = ort;
-    opt.textContent = ort;
-    $select.appendChild(opt);
-  }
+  });
 }
 
-// Render current selection
-async function renderSelected() {
-  if (!$select || !$date || !chart) return;
-  const ort = $select.value;
-  const day = $date.value; // "YYYY-MM-DD"
-  if (!ort || !day) return;
+// ===== Update chart =====
+function updateChart() {
+  const location = $location.value;
+  const date = $date.value;
+  
+  if (!location || !date) return;
 
-  const start = new Date(`${day}T00:00:00`);
-  start.setHours(0,0,0,0);
-  const startSec = Math.floor(start.getTime() / 1000);
-  const endSec   = startSec + 24 * 3600;
-
-  const rows = await fetchAareRows(); // uses cache unless stale
-  const values = seriesForOrtAndDay(rows, ort, startSec, endSec);
-
-  // update dataset
-  datapoints.length = 0;
-  values.forEach(v => datapoints.push(v));
-  chart.data.datasets[0].label = `ausgewählter Ort: ${ort} (${day})`;
-
-  // auto y-range if we have numbers
-  const nums = values.filter(v => Number.isFinite(v));
-  if (nums.length) {
-    const min = Math.min(...nums), max = Math.max(...nums);
+  const series = buildSeries(apiData, location, date);
+  
+  // Update chart data
+  chart.data.datasets[0].data = series;
+  chart.data.datasets[0].label = `${location} (${date})`;
+  
+  // Auto-scale Y axis
+  const temps = series.filter(v => v !== null);
+  if (temps.length > 0) {
+    const min = Math.min(...temps);
+    const max = Math.max(...temps);
     chart.options.scales.y.suggestedMin = Math.floor(min - 1);
     chart.options.scales.y.suggestedMax = Math.ceil(max + 1);
   }
-
+  
   chart.update();
+  
+  console.log(`${location} on ${date}: ${temps.length} data points`);
 }
 
-// ===== Page init =====
+// ===== Fill location dropdown =====
+function populateLocations() {
+  const locations = [...new Set(apiData.map(row => row.orte))].sort();
+  
+  $location.innerHTML = '<option value="" disabled selected>Ort auswählen</option>';
+  
+  locations.forEach(loc => {
+    const option = document.createElement('option');
+    option.value = loc;
+    option.textContent = loc;
+    $location.appendChild(option);
+  });
+  
+  // Auto-select first location
+  if (locations.length > 0) {
+    $location.value = locations[0];
+  }
+}
+
+// ===== Initialize =====
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    // Pre-fill date (today) if empty
-    if ($date && !$date.value) {
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm   = String(today.getMonth() + 1).padStart(2, '0');
-      const dd   = String(today.getDate()).padStart(2, '0');
-      $date.value = `${yyyy}-${mm}-${dd}`;
-    }
-
-    // Create chart instance
-    if ($canvas) chart = new Chart($canvas, chartConfig);
-
-    // Fetch once, fill dropdown, initial render
-    const rows = await fetchAareRows({ ttlMs: 60_000 });
-    fillDropdown(rows);
-
-    // If there’s at least one Ort, select first real option
-    if ($select && $select.options.length > 1 && !$select.value) {
-      $select.selectedIndex = 1;
-    }
-
-    await renderSelected();
-
-    // Re-render on changes
-    $select?.addEventListener('change', renderSelected);
-    $date?.addEventListener('change', renderSelected);
-
-  } catch (err) {
-    console.error('Init-Fehler:', err);
+    // Set today's date as default
+    const today = new Date();
+    $date.value = today.toISOString().split('T')[0];
+    
+    // Create chart
+    createChart();
+    
+    // Fetch data and populate dropdown
+    apiData = await fetchData();
+    populateLocations();
+    
+    // Initial chart render
+    updateChart();
+    
+    // Event listeners
+    $location.addEventListener('change', updateChart);
+    $date.addEventListener('change', updateChart);
+    
+  } catch (error) {
+    console.error('Error:', error);
   }
 });
 
-// ===== Optional: manual refresh button could call this =====
-export async function refreshDataAndRender() {
-  await fetchAareRows({ force: true });
-  await renderSelected();
+// ===== Export for manual refresh =====
+export async function refreshData() {
+  apiData = await fetchData();
+  updateChart();
 }

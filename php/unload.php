@@ -23,7 +23,7 @@ try {
 
     $today = date('Y-m-d');
 
-    $sql = "SELECT * FROM `Daten_Temp` WHERE DATE(`timestamp`) = CURDATE()";
+    $sql = "SELECT * FROM `Daten_Temp`";
 
     // Bereiten Sie die SQL-Anweisung vor
     $stmt = $pdo->prepare($sql);

@@ -87,14 +87,113 @@ if (stufeParam) localStorage.setItem('selectedStufe', stufeParam);
 
 
 
+// bb=nein
+// cc=gehtschon
+// ee=ja
+// ff=unbedingt
+
+
 const spruecheMap = new Map();
-spruecheMap.set("1_gfroerli", "bibelihaut vibes");
-spruecheMap.set("1_solala", "chli frisch, aber machbar");
-spruecheMap.set("1_hertimnaeh", "summerfeeling pur");
-spruecheMap.set("2_gfroerli", "iglu boue bringts meh");
-spruecheMap.set("2_solala", "chli frisch, aber machbar");
-spruecheMap.set("2_solala", "wär seisch – ab i d Aare!");
-spruecheMap.set("2_hertimnaeh", "wär seisch – ab i d Aare!");
+spruecheMap.set("1_gfroerli", "bb");
+spruecheMap.set("1_solala", "bb");
+spruecheMap.set("1_hertimnaeh", "bb");
+
+spruecheMap.set("2_gfroerli", "bb");
+spruecheMap.set("2_solala", "bb");
+spruecheMap.set("2_hertimnaeh", "bb!");
+
+spruecheMap.set("3_gfroerli", "bb");
+spruecheMap.set("3_solala", "bb");
+spruecheMap.set("3_hertimnaeh", "bb");
+
+spruecheMap.set("4_gfroerli", "bb");
+spruecheMap.set("4_solala", "bb");
+spruecheMap.set("4_hertimnaeh", "bb");
+
+spruecheMap.set("5_gfroerli", "bb");
+spruecheMap.set("5_solala", "bb");
+spruecheMap.set("5_hertimnaeh", "bb");
+
+spruecheMap.set("6_gfroerli", "bb");
+spruecheMap.set("6_solala", "bb");
+spruecheMap.set("6_hertimnaeh", "bb");
+
+spruecheMap.set("7_gfroerli", "bb");
+spruecheMap.set("7_solala", "bb");
+spruecheMap.set("7_hertimnaeh", "bb");
+
+spruecheMap.set("8_gfroerli", "bb");
+spruecheMap.set("8_solala", "bb");
+spruecheMap.set("8_hertimnaeh", "bb");
+
+spruecheMap.set("9_gfroerli", "bb");
+spruecheMap.set("9_solala", "bb");
+spruecheMap.set("9_hertimnaeh", "bb");
+
+spruecheMap.set("10_gfroerli", "bb");
+spruecheMap.set("10_solala", "bb");
+spruecheMap.set("10_hertimnaeh", "bb");
+
+spruecheMap.set("11_gfroerli", "bb");
+spruecheMap.set("11_solala", "bb");
+spruecheMap.set("11_hertimnaeh", "bb");
+
+spruecheMap.set("12_gfroerli", "bb");
+spruecheMap.set("12_solala", "bb");
+spruecheMap.set("12_hertimnaeh", "cc");
+
+spruecheMap.set("13_gfroerli", "bb");
+spruecheMap.set("13_solala", "bb");
+spruecheMap.set("13_hertimnaeh", "cc");
+
+spruecheMap.set("14_gfroerli", "bb");
+spruecheMap.set("14_solala", "cc");
+spruecheMap.set("14_hertimnaeh", "cc");
+
+spruecheMap.set("15_gfroerli", "bb");
+spruecheMap.set("15_solala", "cc");
+spruecheMap.set("15_hertimnaeh", "ee");
+
+spruecheMap.set("16_gfroerli", "cc");
+spruecheMap.set("16_solala", "cc");
+spruecheMap.set("16_hertimnaeh", "ee");
+
+spruecheMap.set("17_gfroerli", "cc");
+spruecheMap.set("17_solala", "ee");
+spruecheMap.set("17_hertimnaeh", "ff");
+
+spruecheMap.set("18_gfroerli", "cc");
+spruecheMap.set("18_solala", "ee");
+spruecheMap .set("18_hertimnaeh", "ff");
+
+spruecheMap.set("19_gfroerli", "ee");
+spruecheMap.set("19_solala", "ff");
+spruecheMap.set("19_hertimnaeh", "ff");
+
+spruecheMap.set("20_gfroerli", "ee");
+spruecheMap.set("20_solala", "ff");
+spruecheMap.set("20_hertimnaeh", "ff");
+
+spruecheMap.set("21_gfroerli", "ff");
+spruecheMap.set("21_solala", "ff");
+spruecheMap.set("21_hertimnaeh", "ff");
+
+spruecheMap.set("22_gfroerli", "ff");
+spruecheMap.set("22_solala", "ff");
+spruecheMap.set("22_hertimnaeh", "ff");
+
+spruecheMap.set("23_gfroerli", "ff");
+spruecheMap.set("23_solala", "ff");
+spruecheMap.set("23_hertimnaeh", "ff");
+
+spruecheMap.set("24_gfroerli", "ff");
+spruecheMap.set("24_solala", "ff");
+spruecheMap.set("24_hertimnaeh", "ff");
+
+spruecheMap.set("25_gfroerli", "ff");
+spruecheMap.set("25_solala", "ff");
+spruecheMap.set("25_hertimnaeh", "ff");
+
 
 
 let temp = 15;

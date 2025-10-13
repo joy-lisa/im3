@@ -61,6 +61,32 @@ function pickSpruch(temp, stufe) {
 
 
 
+// === AUSGEWÄHLTE GFRÖRLI-STUFE UND ORT ANZEIGEN ===
+const params = new URLSearchParams(window.location.search);
+const ortParam   = params.get('ort')   || localStorage.getItem('selectedOrt')   || '';
+const stufeParam = params.get('stufe') || localStorage.getItem('selectedStufe') || '';
+
+const STUFE_LABELS = {
+  gfroerli:  'gfrörli',
+  solala:    'so lala',
+  hertimnae: 'hert im nä'
+};
+
+const $ortOut   = document.getElementById('ausgabe-ort');
+const $stufeOut = document.getElementById('ausgabe-stufe');
+
+if ($ortOut)   $ortOut.textContent   = ortParam   ? `Ort: ${ortParam}` : 'Kein Ort gewählt';
+if ($stufeOut) $stufeOut.textContent = stufeParam ? `Gfrörli-Stufe: ${STUFE_LABELS[stufeParam] || stufeParam}` : 'Keine Stufe gewählt';
+
+if (ortParam)   localStorage.setItem('selectedOrt', ortParam);
+if (stufeParam) localStorage.setItem('selectedStufe', stufeParam);
+
+
+
+
+
+
+
 const spruecheMap = new Map();
 spruecheMap.set("15_gfroerlistufe", "bibelihaut vibes");
 spruecheMap.set("15_hertimnae", "chli frisch, aber machbar");

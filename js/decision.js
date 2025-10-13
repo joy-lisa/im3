@@ -5,7 +5,7 @@ const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
 const $select   = document.getElementById('orte');
 const $goBtn    = document.getElementById('findsuse-btn'); // ⬅️ changed
-const stufeBtns = Array.from(document.querySelectorAll('.auswahlbutton'));
+const stufeBtns = document.querySelectorAll('.auswahlbutton');
 let selectedStufe = '';
 
 // load Orte (same as before) ...
@@ -30,6 +30,37 @@ $goBtn?.addEventListener('click', goToResult);
 
 
 
+// === GFRÖRLI-STUFEN SPEICHERN & VISUELL MARKIEREN ===
+let savedStufe = localStorage.getItem('selectedStufe') || '';
+if (savedStufe) {
+  const pre = Array.from(stufeBtns).find(b => b.dataset.value === savedStufe);
+  if (pre) pre.classList.add('active');
+}
+
+stufeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectedStufe = btn.dataset.value;
+    localStorage.setItem('selectedStufe', selectedStufe);
+    stufeBtns.forEach(b => b.classList.toggle('active', b === btn));
+  });
+});
+
+$goBtn.addEventListener('click', () => {
+  const ort = $select.value;
+  if (!ort) { alert('Bitte Ort auswählen'); return; }
+  if (!selectedStufe) { alert('Bitte Gfrörli-Stufe auswählen'); return; }
+
+  localStorage.setItem('selectedOrt', ort);
+  const qs = new URLSearchParams({ ort, stufe: selectedStufe }).toString();
+  window.location.href = `result.html?${qs}`;
+});
+
+
+
+
+
+
+
 
 //aus orte.js kopiert:
 // === Simple timestamp parser (not needed here but kept for future use) ===
@@ -45,5 +76,6 @@ function parseTimestamp(timestamp) {
     return await response.json();
   }
   
-  document.addEventListener('DOMContentLoaded', populateLocations);
   
+  function populateLocations() {}
+document.addEventListener('DOMContentLoaded', populateLocations);

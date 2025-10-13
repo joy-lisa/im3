@@ -45,27 +45,5 @@ function parseTimestamp(timestamp) {
     return await response.json();
   }
   
-  // === Fill location dropdown ===
-  async function populateLocations() {
-    try {
-      const data = await fetchData();
-      const locations = [...new Set(data.map(row => row.orte))].sort();
-  
-      const $location = document.getElementById('orte');
-      $location.innerHTML = '<option value="" disabled selected>uswau vom ort</option>';
-  
-      locations.forEach(loc => {
-        const option = document.createElement('option');
-        option.value = loc;
-        option.textContent = loc;
-        $location.appendChild(option);
-      });
-  
-      console.log(`Geladeni Orte: ${locations.join(', ')}`);
-    } catch (err) {
-      console.error('Fehler bim Lade vo de Orte:', err);
-    }
-  }
-  
   document.addEventListener('DOMContentLoaded', populateLocations);
   

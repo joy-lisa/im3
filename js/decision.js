@@ -4,9 +4,17 @@
 const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
 const $select   = document.getElementById('orte');
-const $goBtn    = document.getElementById('findsuse-btn'); // ⬅️ changed
+const $goBtn    = document.getElementById('findsuse-btn');
 const stufeBtns = document.querySelectorAll('.auswahlbutton');
 let selectedStufe = '';
+
+
+
+// === DEBUG: überprüfen, ob Script und Buttons erkannt werden ===
+console.log('[decision.js] geladen');
+console.log('Buttons gefunden:', document.querySelectorAll('.auswahlbutton').length);
+
+
 
 // load Orte (same as before) ...
 // stufe selection (same as before) ...
@@ -39,6 +47,9 @@ if (savedStufe) {
 
 stufeBtns.forEach(btn => {
   btn.addEventListener('click', () => {
+
+    console.log("Button geklickt:", btn.dataset.value);
+
     selectedStufe = btn.dataset.value;
     localStorage.setItem('selectedStufe', selectedStufe);
     stufeBtns.forEach(b => b.classList.toggle('active', b === btn));
@@ -54,9 +65,6 @@ $goBtn.addEventListener('click', () => {
   const qs = new URLSearchParams({ ort, stufe: selectedStufe }).toString();
   window.location.href = `result.html?${qs}`;
 });
-
-
-
 
 
 

@@ -88,11 +88,13 @@ if (stufeParam) localStorage.setItem('selectedStufe', stufeParam);
 
 
 const spruecheMap = new Map();
-spruecheMap.set("15_gfroerlistufe", "bibelihaut vibes");
-spruecheMap.set("15_hertimnae", "chli frisch, aber machbar");
-spruecheMap.set("15_keine", "summerfeeling pur");
-spruecheMap.set("10_gfroerlistufe", "iglu boue bringts meh");
-spruecheMap.set("10_hertimnae", "chli frisch, aber machbar");
+spruecheMap.set("1_gfroerli", "bibelihaut vibes");
+spruecheMap.set("1_solala", "chli frisch, aber machbar");
+spruecheMap.set("1_hertimnaeh", "summerfeeling pur");
+spruecheMap.set("2_gfroerli", "iglu boue bringts meh");
+spruecheMap.set("2_solala", "chli frisch, aber machbar");
+spruecheMap.set("2_solala", "wär seisch – ab i d Aare!");
+spruecheMap.set("2_hertimnaeh", "wär seisch – ab i d Aare!");
 
 
 let temp = 15;

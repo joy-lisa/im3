@@ -12,14 +12,12 @@
 body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     background-color: var(--weiss);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-
+    height: 100vh;
     font-family: 'aptly', sans-serif;
 }
 
@@ -30,11 +28,25 @@ textarea {
     font-family: inherit;
 }
 
-.titel {
-    position: relative;
-    /* oder einfach weglassen */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 99vh;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem 1rem; 
+    box-sizing: border-box;
     text-align: center;
-    margin-top: 50px;
+}
+
+.titel h1 {
+    color: var(--dunkelblau);
+    font-size: clamp(48px, 14vw, 96px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
 }
 
 h1 {
@@ -60,13 +72,14 @@ h1 {
 /*class mit h2*/
 .subtitle {
     color: var(--dunkelblau);
-    font-size: clamp(18px, 2vw, 28px);
+    font-size: clamp(14px, 3.5vw, 20px);
     /* responsive Schriftgröße */
     font-weight: 700;
-    text-align: center;
-    margin: 2rem 1rem;
+    /* text-align: center; */
+    margin: 2rem 0;
+    line-height: 1.3;
     /* Abstand zum Titel und Seitenrand */
-    max-width: 90%;
+    /* max-width: 90%; */
     /* Text bricht bei kleinen Screens um */
 
 }
@@ -395,7 +408,18 @@ body.daten-body {
 /* button index.html */
 
 .yes-button {
-    width: 338px;
+    width: clamp(250px, 40vw, 338px);
+    height: clamp(60px, 8vh, 97px);
+    border-radius: 20px;
+    border: 4px solid var(--orange, #E8BA71);
+    background-color: var(--weiss, #F4F2EF);
+    box-shadow: 0 0 13px 4px #E8BA71 inset;
+    font-size: clamp(24px, 6vw, 64px);
+    font-weight: 700;
+    color: var(--orange);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    /* width: 338px;
     height: 97px;
     border-radius: 20px;
     border: 4px solid var(--orange, #E8BA71);
@@ -403,21 +427,26 @@ body.daten-body {
     flex-shrink: 0;
 
     /* shadow button */
-    box-shadow: 0 0 13px 4px #E8BA71 inset;
+    /* box-shadow: 0 0 13px 4px #E8BA71 inset; */
 
     /*font*/
-    font-size: 64px;
+    /* font-size: 64px;
     font-weight: 700;
     font-style: normal;
     line-height: normal;
-    color: var(--orange);
+    color: var(--orange); */
 
     /* Positionierung unten am Bildschirm */
-    position: fixed;
+    /* position: fixed;
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: 100; */
+}
+
+.yes-button:hover {
+    background-color: var(--orange);
+    color: var(--weiss);
 }
 
 /* button decision.html */
@@ -440,7 +469,7 @@ body.daten-body {
     color: var(--orange);
 
     /* Positionierung unten am Bildschirm */
-    position: fixed;
+    position: relative;
     bottom: 100px;
     left: 50%;
     transform: translateX(-50%);
@@ -466,7 +495,7 @@ body.daten-body {
 
 }
 
-.gfroerlistufen .auswahlbutton.active {
+.auswahlbutton.active {
     background: var(--dunkelblau);
     color: var(--weiss);
     outline: 2px solid transparent;

@@ -1,6 +1,6 @@
 // js/result.js
 
-const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
+// const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
 function tsToUnix(tsStr) {
   // "YYYY-MM-DD HH:MM:SS" -> treat as UTC
@@ -31,32 +31,32 @@ function pickSpruch(temp, stufe) {
     return;
   }
 
-  try {
-    const rows = await fetch(API_URL, { cache: 'no-store' }).then(r => {
-      if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-      return r.json();
-    });
+//   try {
+//     // const rows = await fetch(API_URL, { cache: 'no-store' }).then(r => {
+//     //   if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
+//     //   return r.json();
+//     // });
 
-    const parsed = rows
-      .filter(r => r.orte === ort)
-      .map(r => ({ temp: Number(r.aare_temp), ts: tsToUnix(r.timestamp) }))
-      .filter(r => Number.isFinite(r.temp) && Number.isFinite(r.ts));
+//     const parsed = rows
+//       .filter(r => r.orte === ort)
+//       .map(r => ({ temp: Number(r.aare_temp), ts: tsToUnix(r.timestamp) }))
+//       .filter(r => Number.isFinite(r.temp) && Number.isFinite(r.ts));
 
-    if (!parsed.length) {
-      $tempEl.textContent = `keini aktuelle Date für ${ort}`;
-      $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
-      console.warn('No rows for selected ort. Sample:', rows.slice(0,3));
-      return;
-    }
+//     if (!parsed.length) {
+//       $tempEl.textContent = `keini aktuelle Date für ${ort}`;
+//       $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
+//       console.warn('No rows for selected ort. Sample:', rows.slice(0,3));
+//       return;
+//     }
 
-    const latest = parsed.reduce((a, b) => (a.ts > b.ts ? a : b));
-    $tempEl.textContent = `${latest.temp.toFixed(1)}°C`;
-    $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
-    $spruchEl.textContent = pickSpruch(latest.temp, stufe);
-  } catch (err) {
-    console.error('API error:', err);
-    $tempEl.textContent = 'Fehler bim Lade';
-  }
+//     const latest = parsed.reduce((a, b) => (a.ts > b.ts ? a : b));
+//     $tempEl.textContent = `${latest.temp.toFixed(1)}°C`;
+//     $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
+//     $spruchEl.textContent = pickSpruch(latest.temp, stufe);
+//   } catch (err) {
+//     console.error('API error:', err);
+//     $tempEl.textContent = 'Fehler bim Lade';
+//   }
 })();
 
 

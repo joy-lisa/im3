@@ -1,11 +1,12 @@
 
 const $location = document.getElementById('orte');
-const $date = document.getElementById('date');
-const $canvas = document.getElementById('myAareChart');
+//const $date = document.getElementById('date');
+//const $canvas = document.getElementById('myAareChart');
 
 //===== Fill location dropdown =====
-function populateLocations() {
+function populateLocations(apiData) {
     const locations = [...new Set(apiData.map(row => row.orte))].sort();
+    console.log('Available locations:', locations);
 
     $location.innerHTML = '<option value="" disabled selected>Ort auswählen</option>';
 
@@ -21,26 +22,20 @@ function populateLocations() {
         $location.value = locations[0];
     }
 }
+async function fetchData() {
+    const response = await fetch(API_URL, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    return await response.json();
+  }
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // Set today's date as default
-        const today = new Date();
-        $date.value = today.toISOString().split('T')[0];
 
-        // Create chart
-        createChart();
 
         // Fetch data and populate dropdown
         apiData = await fetchData(API_URL);
-        populateLocations();
+        populateLocations(apiData);
 
-        // Initial chart render
-        updateChart();
-
-        // Event listeners
-        $location.addEventListener('change', updateChart);
-        $date.addEventListener('change', updateChart);
 
     } catch (error) {
         console.error('Error:', error);

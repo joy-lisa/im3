@@ -47,3 +47,31 @@ function parseTimestamp(timestamp) {
   
   document.addEventListener('DOMContentLoaded', populateLocations);
   
+  // === GFRÖRLI-STUFEN SPEICHERN & VISUELL MARKIEREN ===
+const stufeBtns = Array.from(document.querySelectorAll('.auswahlbutton'));
+let selectedStufe = localStorage.getItem('selectedStufe') || '';
+
+// beim Laden evtl. gespeicherte Auswahl hervorheben
+if (selectedStufe) {
+  const pre = stufeBtns.find(b => b.dataset.value === selectedStufe);
+  if (pre) pre.classList.add('active');
+}
+
+// Klick-Logik: speichern + visuelles Feedback
+stufeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectedStufe = btn.dataset.value;
+    localStorage.setItem('selectedStufe', selectedStufe);
+    stufeBtns.forEach(b => b.classList.toggle('active', b === btn));
+  });
+});
+
+// === WEITERLEITUNG MIT STUFE + ORT ===
+document.getElementById('findsuse-btn').addEventListener('click', () => {
+  const ort = document.getElementById('orte').value;
+  if (!ort) { alert('Bitte Ort auswählen'); return; }
+  if (!selectedStufe) { alert('Bitte Gfrörli-Stufe auswählen'); return; }
+
+  const qs = new URLSearchParams({ ort, stufe: selectedStufe }).toString();
+  window.location.href = `result.html?${qs}`;
+});

@@ -1,3 +1,7 @@
+const $location = document.getElementById('orte');
+const $date = document.getElementById('date');
+const $canvas = document.getElementById('myAareChart');
+
 //===== Fill location dropdown =====
 function populateLocations() {
     const locations = [...new Set(apiData.map(row => row.orte))].sort();

@@ -1,3 +1,5 @@
+const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
+
 const $location = document.getElementById('orte');
 const $date = document.getElementById('date');
 const $canvas = document.getElementById('myAareChart');
@@ -31,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         createChart();
 
         // Fetch data and populate dropdown
-        apiData = await fetchData();
+        apiData = await fetchData(API_URL);
         populateLocations();
 
         // Initial chart render

@@ -58,3 +58,20 @@ function pickSpruch(temp, stufe) {
     $tempEl.textContent = 'Fehler bim Lade';
   }
 })();
+
+
+
+const spruecheMap = new Map();
+spruecheMap.set("15_gfroerlistufe", "bibelihaut vibes");
+spruecheMap.set("15_hertimnae", "chli frisch, aber machbar");
+spruecheMap.set("15_keine", "summerfeeling pur");
+spruecheMap.set("10_gfroerlistufe", "iglu boue bringts meh");
+spruecheMap.set("10_hertimnae", "chli frisch, aber machbar");
+
+
+let temp = 15;
+
+let stufe = "gfroerlistufe";
+
+
+spruecheMap.get(temp + "_" + stufe);

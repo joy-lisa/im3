@@ -41,12 +41,19 @@ textarea {
     text-align: center;
 }
 
+.titel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    line-height: 0.9;
+}
+
 .titel h1 {
     color: var(--dunkelblau);
-    font-size: clamp(48px, 14vw, 96px);
+    font-size: clamp(60px, 12vw, 110px);
     font-weight: 700;
     margin: 0;
-    line-height: 1;
 }
 
 h1 {
@@ -72,16 +79,13 @@ h1 {
 /*class mit h2*/
 .subtitle {
     color: var(--dunkelblau);
-    font-size: clamp(14px, 3.5vw, 20px);
+    font-size: clamp(16px, 3.5vw, 22px);
     /* responsive Schriftgröße */
     font-weight: 700;
     /* text-align: center; */
     margin: 2rem 0;
     line-height: 1.3;
-    /* Abstand zum Titel und Seitenrand */
-    /* max-width: 90%; */
-    /* Text bricht bei kleinen Screens um */
-
+    max-width: 90%;
 }
 
 .all-elements {
@@ -408,13 +412,13 @@ body.daten-body {
 /* button index.html */
 
 .yes-button {
-    width: clamp(250px, 40vw, 338px);
-    height: clamp(60px, 8vh, 97px);
+    width: clamp(240px, 70%, 340px);
+    height: clamp(60px, 10vh, 90px);
     border-radius: 20px;
     border: 4px solid var(--orange, #E8BA71);
     background-color: var(--weiss, #F4F2EF);
     box-shadow: 0 0 13px 4px #E8BA71 inset;
-    font-size: clamp(24px, 6vw, 64px);
+    font-size: clamp(28px, 7vw, 50px);
     font-weight: 700;
     color: var(--orange);
     cursor: pointer;
@@ -527,4 +531,21 @@ body.daten-body {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+}
+
+@media (max-width: 650px) {
+    .page-container {
+        justify-content: space-evenly;
+        padding: 3vh 1rem;
+    }
+    
+    titel h1 {
+        font-size: clamp(50px, 10vw, 90px);
+    }
+
+    .yes-button {
+        height: 60px;
+        font-size: 24px;
+    }
+    
 }

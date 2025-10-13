@@ -466,9 +466,11 @@ body.daten-body {
 
 }
 
-.auswahlbutton.active {
+.gfroerlistufen .auswahlbutton.active {
     background: var(--dunkelblau);
     color: var(--weiss);
+    outline: 2px solid transparent;
+    transform: translateY(-1px);
     /* border-color: #007bff; */
     /* box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); */
 }

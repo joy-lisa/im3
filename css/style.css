@@ -115,6 +115,13 @@ h2.titelentscheid {
     z-index: 100;
 }
 
+    /* .auswahlcontainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+} */
+
     /* Container für die beiden Divs */
     .entscheidungscontainer {
         display: flex;
@@ -128,8 +135,8 @@ h2.titelentscheid {
 .select {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center;
+    justify-content: center; */
 }
 
 .wohere {
@@ -276,6 +283,9 @@ h3 {
 
 body.daten-body {
     background-color: var(--dunkelblau) !important;
+    display: grid !important;
+    
+    
 }
 
 .zruegg-button-daten {

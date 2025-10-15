@@ -1,119 +1,157 @@
+// --- chart.js (drop-in) ---
+
+
+// const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
 // const $location = document.getElementById('orte');
 const $date = document.getElementById('date');
 const $canvas = document.getElementById('myAareChart');
 
-// ===== Build 25-hour series for chart =====
-function buildSeries(data, location, selectedDate) {
-    // Parse selected date to get day boundaries (UTC)
-    const [year, month, day] = selectedDate.split('-').map(Number);
-    const dayStart = Date.UTC(year, month - 1, day, 0, 0, 0) / 1000;
-    const dayEnd = dayStart + 24 * 3600;
-  
-    // Filter data for selected location and date
-    const filtered = data.filter(row => {
-      const ts = parseTimestamp(row.timestamp);
-      return row.orte === location && ts >= dayStart && ts <= dayEnd;
-    });
-  
-    // Group by hour (keep last value per hour)
-    const hourlyData = new Map();
-    filtered.forEach(row => {
-      const ts = parseTimestamp(row.timestamp);
-      const date = new Date(ts * 1000);
-      const hour = date.getUTCHours();
-      hourlyData.set(hour, parseFloat(row.aare_temp));
-    });
-  
-    // Build 25-point array (00:00 to 24:00)
-    const series = [];
-    for (let h = 0; h <= 24; h++) {
-      series.push(hourlyData.get(h) ?? null);
-    }
-    
-    return series;
-  }
-  
-  // ===== UI Elements =====
+let chart;
+let apiData = (typeof window.apiData !== 'undefined') ? window.apiData : []; // nutze globales apiData falls vorhanden
 
-  
-  let chart;
-  let apiData = [];
-  
-  // ===== Chart config =====
-  const HOUR_LABELS = Array.from({ length: 25 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
-  
-  function createChart() {
-    chart = new Chart($canvas, {
-      type: 'line',
-      data: {
-        labels: HOUR_LABELS,
-        datasets: [{
-          label: 'Temperatur',
-          data: [],
-          borderColor: '#ffc0cb',
-          fill: false,
-          tension: 0.4,
-          spanGaps: true
-        }]
+// ===== Helpers =====
+function parseTimestamp(timestamp) {
+  // "2025-10-09 00:02:23" -> Unix seconds (UTC)
+  const isoString = timestamp.replace(' ', 'T') + 'Z';
+  return Math.floor(new Date(isoString).getTime() / 1000);
+}
+
+async function fetchData() {
+  const response = await fetch(API_URL, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`Error: ${response.status}`);
+  return await response.json();
+}
+
+// 25-Stunden Serie (00:00–24:00) eines Tages
+function buildSeries(data, location, selectedDate) {
+  if (!location || !selectedDate) return Array(25).fill(null);
+
+  // Tag in UTC Grenzen
+  const [year, month, day] = selectedDate.split('-').map(Number);
+  const dayStart = Date.UTC(year, month - 1, day, 0, 0, 0) / 1000;
+  const dayEnd = dayStart + 24 * 3600;
+
+  // Filter Ort + Tag
+  const filtered = data.filter(row => {
+    const ts = parseTimestamp(row.timestamp);
+    return row.orte === location && ts >= dayStart && ts <= dayEnd;
+  });
+
+  // Stündlich gruppieren (letzter Wert pro Stunde)
+  const hourlyData = new Map();
+  filtered.forEach(row => {
+    const ts = parseTimestamp(row.timestamp);
+    const hour = new Date(ts * 1000).getUTCHours();
+    hourlyData.set(hour, Number(row.aare_temp));
+  });
+
+  // 25 Punkte bauen
+  const series = [];
+  for (let h = 0; h <= 24; h++) {
+    series.push(hourlyData.get(h) ?? null);
+  }
+  return series;
+}
+
+// ===== Chart =====
+const HOUR_LABELS = Array.from({ length: 25 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
+
+function createChart() {
+  chart = new Chart($canvas, {
+    type: 'line',
+    data: {
+      labels: HOUR_LABELS,
+      datasets: [{
+        label: 'Temperatur',
+        data: [],
+        borderColor: '#ffc0cb',
+        fill: false,
+        tension: 0.4,
+        spanGaps: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: 'Temperatur-Tabelle der Aare' }
       },
-      options: {
-        responsive: true,
-        plugins: {
-          title: { display: true, text: 'Temperatur-Tabelle der Aare' }
+      scales: {
+        x: {
+          title: { display: true, text: 'Zeitpunkt (in Stunden)' },
+          ticks: { maxRotation: 90, minRotation: 90 }
         },
-        scales: {
-          x: {
-            title: { display: true, text: 'Zeitpunkt (in Stunden)' },
-            ticks: { maxRotation: 90, minRotation: 90 }
-          },
-          y: {
-            title: { display: true, text: 'Temperatur (°C)' },
-            suggestedMin: 0,
-            suggestedMax: 20
-          }
+        y: {
+          title: { display: true, text: 'Temperatur (°C)' },
+          suggestedMin: 0,
+          suggestedMax: 20
         }
       }
-    });
+    }
+  });
+}
+
+function updateChart() {
+  const location = $location.value;
+  const date = $date.value;
+  if (!chart || !location || !date || !apiData?.length) return;
+
+  const series = buildSeries(apiData, location, date);
+
+  chart.data.datasets[0].data = series;
+  chart.data.datasets[0].label = `${location} (${date})`;
+
+  const temps = series.filter(v => v !== null);
+  if (temps.length) {
+    const min = Math.min(...temps);
+    const max = Math.max(...temps);
+    chart.options.scales.y.suggestedMin = Math.floor(min - 1);
+    chart.options.scales.y.suggestedMax = Math.ceil(max + 1);
   }
-  
+  chart.update();
 
+  console.log(`${location} @ ${date}: ${temps.length} Punkte`);
+}
 
-//   // ===== Update chart =====
-//   function updateChart() {
-//     const location = $location.value;
-//     const date = $date.value;
-    
-//     if (!location || !date) return;
-  
-//     const series = buildSeries(apiData, location, date);
-    
-//     // Update chart data
-//     chart.data.datasets[0].data = series;
-//     chart.data.datasets[0].label = `${location} (${date})`;
-    
-//     // Auto-scale Y axis
-//     const temps = series.filter(v => v !== null);
-//     if (temps.length > 0) {
-//       const min = Math.min(...temps);
-//       const max = Math.max(...temps);
-//       chart.options.scales.y.suggestedMin = Math.floor(min - 1);
-//       chart.options.scales.y.suggestedMax = Math.ceil(max + 1);
-//     }
-    
-//     chart.update();
-    
-//     console.log(`${location} on ${date}: ${temps.length} data points`);
-//   }
-  
+// ===== Init =====
+document.addEventListener('DOMContentLoaded', async () => {
+  // Datum vorbefüllen: aus URL ?date=YYYY-MM-DD oder heute
+  const q = new URLSearchParams(location.search);
+  const qDate = q.get('date');
+  if (qDate) {
+    $date.value = qDate;
+  } else {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    $date.value = `${yyyy}-${mm}-${dd}`;
+  }
 
+  createChart();
 
+  // Falls dropdown.js schon geladen hat, übernehmen
+  if (typeof window.apiData !== 'undefined' && window.apiData.length) {
+    apiData = window.apiData;
+  } else {
+    // sonst selbst laden (stört dropdown.js nicht)
+    try {
+      apiData = await fetchData();
+      window.apiData = apiData; // optional global
+    } catch (e) {
+      console.error('Fetch error (chart.js):', e);
+    }
+  }
 
+  // Warten, bis der Ort-Dropdown eine Auswahl hat (dropdown.js füllt async)
+  const readyInterval = setInterval(() => {
+    if ($location && $location.value && apiData?.length) {
+      updateChart();
+      clearInterval(readyInterval);
+    }
+  }, 100);
 
-
-  // ===== Export for manual refresh =====
-  /*export async function refreshData() {
-    apiData = await fetchData();
-    updateChart();
-  }*/
-  
+  // Listener
+  $location.addEventListener('change', updateChart);
+  $date.addEventListener('change', updateChart);
+});

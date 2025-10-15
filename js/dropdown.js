@@ -1,4 +1,7 @@
 
+const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
+
+
 const $location = document.getElementById('orte');
 //const $date = document.getElementById('date');
 //const $canvas = document.getElementById('myAareChart');
@@ -30,7 +33,6 @@ async function fetchData() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-
 
         // Fetch data and populate dropdown
         apiData = await fetchData(API_URL);

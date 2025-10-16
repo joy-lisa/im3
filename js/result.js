@@ -370,7 +370,7 @@ const RESULT_TEXT = {
   'unbedingt':   'Hüpf i Chochtopf!'
 };
 
-// Hilfsfunktion um finalen Text zu bekommen
+// wenn keine stufe ausgewählt
 function getSpruch(result) {
-  return RESULT_TEXT[result] || 'hüt wüsse mers nöd so rächt';
+  return RESULT_TEXT[result] || 'meinsch chasches wage?';
 }

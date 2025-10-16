@@ -3,6 +3,24 @@
 // js/decision.js
 //const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
+
+// === Reset beim Laden: immer frischer Start ===
+document.addEventListener('DOMContentLoaded', () => {
+  // alles zurücksetzen
+  ['selectedOrt', 'selectedStufe', 'selectedDate'].forEach(k => localStorage.removeItem(k));
+
+  // Dropdown + Buttons visuell zurücksetzen
+  const $ort = document.getElementById('orte');
+  if ($ort) $ort.selectedIndex = 0;
+
+  const stufeBtns = document.querySelectorAll('.auswahlbutton');
+  stufeBtns.forEach(btn => btn.classList.remove('active'));
+});
+
+
+
+
+
 const $goBtn    = document.getElementById('findsuse-btn');
 const stufeBtns = document.querySelectorAll('.auswahlbutton');
 const $select = document.getElementById('orte');

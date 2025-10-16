@@ -65,7 +65,7 @@ function createChart() {
       datasets: [{
         label: 'Temperatur',
         data: [],
-        borderColor: '#ffc0cb',
+        borderColor: '#e8ba71',
         fill: false,
         tension: 0.4,
         spanGaps: true
@@ -74,15 +74,35 @@ function createChart() {
     options: {
       responsive: true,
       plugins: {
-        title: { display: true, text: 'Temperatur-Tabelle der Aare' }
+        title: { 
+          display: true, 
+          text: 'Temperatur-Tabelle der Aare',
+          color: '#f4f2ef',
+          font: {
+            family: 'Aptly', 
+            size: 24, 
+            weight: 'bold'
+          }
+         },
+        legend: {
+          labels: { 
+            color: '#f4f2ef', 
+            font: { 
+              family: 'Aptly', 
+            }
+          }
+        },
       },
       scales: {
         x: {
-          title: { display: true, text: 'Zeitpunkt (in Stunden)' },
-          ticks: { maxRotation: 90, minRotation: 90 }
+          title: { display: true, text: 'zeitpunkt (in stunden)', color: '#f4f2ef', font: { family: 'Aptly' } },
+          ticks: { color: '#f4f2ef', maxRotation: 90, minRotation: 90, font: { family: 'Aptly' } },
+          grid: { color: rgba(244, 242, 239, 0.8) }
         },
         y: {
-          title: { display: true, text: 'Temperatur (°C)' },
+          title: { display: true, text: 'temperatur (°C)', color: '#f4f2ef', font: { family: 'Aptly' } },
+          ticks: { color: '#f4f2ef', font: { family: 'Aptly' } },
+          grid: { color: rgba(244, 242, 239, 0.8) },
           suggestedMin: 0,
           suggestedMax: 20
         }

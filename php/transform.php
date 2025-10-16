@@ -12,7 +12,7 @@ if (is_string($AareData)) {
     $data = json_decode($AareData, true, 512, JSON_THROW_ON_ERROR);
 } else {
     $data = $AareData;
-}
+} 
 
 if (!is_array($data)) {
     throw new RuntimeException('Unerwartetes Datenformat aus extract.php – erwartet Array oder JSON-String.');

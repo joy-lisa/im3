@@ -262,19 +262,43 @@ body.result-body {
     display: flex;
 }
 
+.result-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box;
+    padding: 100px;
+}
+
+.resultat-angaben {
+    display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 4rem;
+        flex-wrap: wrap;
+        /* width: 100%; */
+        max-width: 1200px;
+        padding: 0 1rem;
+        box-sizing: border-box;
+        text-align: center;
+}
 .result-footer {
-    background-color: var(--weiss);
-    width: 792px auto;
+    /* background-color: var(--weiss);
+    width: 80%;
+    height: auto;
     bottom: 0px;
     padding: 20px 0px 20px 0px;
     text-align: center;
     border-radius: 174px 174px 0px 0px;
 
     /* Positionierung unten am Bildschirm */
-    position: fixed;
+    /* position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100;
+    z-index: 100; */ */
 
 }
 
@@ -290,11 +314,12 @@ body.result-body {
 
 .subtitle-result {
     color: var(--weiss);
-    font-family: Aptly;
+    text-align: center;
+    font-family: 'Aptly', sans-serif;
     font-size: 40px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
+    margin: 0 auto 40px;
+    position: relative;
 }
 
 .temperatur {
@@ -308,12 +333,28 @@ body.result-body {
 }
 
 .footer-titel {
-    color: var(--dunkelblau);
+    /* color: var(--dunkelblau);
     font-family: Aptly;
     font-size: 40px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin-top: 0;
+    margin-bottom: 10px; */
+
+    background-color: var(--weiss);
+    width: 80%;
+    height: auto;
+    bottom: 0px;
+    padding: 20px 0px 20px 0px;
+    text-align: center;
+    border-radius: 174px 174px 0px 0px;
+
+    /* Positionierung unten am Bildschirm */
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
 
 h3 {

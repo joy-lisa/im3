@@ -63,10 +63,37 @@ function tsToUnix(tsStr) {
 
 
 
+
+    
+
+
+
+
     // === SPRUCH ANZEIGEN ===
     const $spruchEl = document.querySelector('h2.spruch'); // dein Spruchfeld
 const params2 = new URLSearchParams(location.search);
 const stufe = params2.get('stufe') || localStorage.getItem('selectedStufe') || '';
+
+
+
+
+// === ORT + STUFE klein ausgeben ===
+const $ortUndStufe = document.querySelector('.ortundstufe');
+if ($ortUndStufe) {
+  const STUFE_LABELS = {
+    gfroerli:   'Gfrörli',
+    solala:     'So lala',
+    hertimnaeh: 'Hert im Nä'
+  };
+  const sKey    = normalizeStufe(stufe);
+  const sLabel  = sKey ? (STUFE_LABELS[sKey] || stufe) : '—';
+  const oLabel  = ort || '—';
+  $ortUndStufe.textContent = `${oLabel} · ${sLabel}`;
+}
+
+
+
+
 
 const result = getDecisionFor(latest.temp, stufe);
 if ($spruchEl) $spruchEl.textContent = getSpruch(result);

@@ -59,7 +59,7 @@ function tsToUnix(tsStr) {
 
     // Aktuellste Messung anzeigen
     const latest = parsed.reduce((a, b) => (a.ts > b.ts ? a : b));
-    if ($tempEl) $tempEl.textContent = `${latest.temp.toFixed(1)}°C`;
+    if ($tempEl) $tempEl.textContent = `${latest.temp.toFixed(1)}°`;
 
 
 
@@ -81,9 +81,9 @@ const stufe = params2.get('stufe') || localStorage.getItem('selectedStufe') || '
 const $ortUndStufe = document.querySelector('.ortundstufe');
 if ($ortUndStufe) {
   const STUFE_LABELS = {
-    gfroerli:   'Gfrörli',
-    solala:     'So lala',
-    hertimnaeh: 'Hert im Nä'
+    gfroerli:   'gfrörli',
+    solala:     'so lala',
+    hertimnaeh: 'hert im nä'
   };
   const sKey    = normalizeStufe(stufe);
   const sLabel  = sKey ? (STUFE_LABELS[sKey] || stufe) : '—';
@@ -154,8 +154,34 @@ for (let i = 1; i <= 4; i++) {
     // optional: passender Deep-Link inkl. Ort & Datum (falls du das auf daten.html auswertest)
     link.href = `daten.html?ort=${encodeURIComponent(ort)}&date=${key}`;
     link.title = `Tagesmittel ${key}`;
+
+
+
+
+    // Wochentag-Label über dem Button zeigen
+const btn = link.closest('button');
+if (btn) {
+  // de-CH Kürzel
+  const WD = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+
+  // Date-Objekt aus key (lokal)
+  const [yy, mm, dd] = key.split('-').map(Number);
+  const dateObj = new Date(yy, mm - 1, dd); // lokale Zeit
+  const wd = WD[dateObj.getDay()];
+
+  // Element anlegen/aktualisieren
+  let labelEl = btn.previousElementSibling;
+  if (!labelEl || !labelEl.classList.contains('footer-label')) {
+    labelEl = document.createElement('div');
+    labelEl.className = 'footer-label';
+    btn.insertAdjacentElement('beforebegin', labelEl);
+  }
+  labelEl.textContent = wd;      // z. B. "Mo"
+  labelEl.title = key;           // Tooltip mit Datum "YYYY-MM-DD"
+}
   }
 }
+
 
 
 
@@ -364,10 +390,10 @@ function getDecisionFor(tempFloat, stufeRaw) {
 
 // ---- 3) Entscheidung → finaler Spruch ----
 const RESULT_TEXT = {
-  'nein':        'Wirsch zum Iszapfe!',
-  'gehtschon':   'Eher no chli früsch!',
-  'ja':          'Pack din Schnorchel ii!',
-  'unbedingt':   'Hüpf i Chochtopf!'
+  'nein':        'wirsch zum iiszapfe!',
+  'gehtschon':   'eher no chli früsch!',
+  'ja':          'pack din schnorchel ii!',
+  'unbedingt':   'hüpf i chochtopf!'
 };
 
 // wenn keine stufe ausgewählt

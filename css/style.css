@@ -365,14 +365,39 @@ footer {
     margin-bottom: 20px;
 }
 
+
+
+/* Grid statt Flex: pro Spalte Label (oben) + Button (unten) */
 .footer-daten {
-    display: flex;
+    display: grid !important;     
+    grid-auto-flow: column;        /* fülle Spalten von links nach rechts */
+    grid-template-rows: auto auto; /* 1. Reihe: Label, 2. Reihe: Buttons */
+    column-gap: 10px;
+    row-gap: 6px;
     justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-}
+    align-items: end;
+  }
+  
+  /* Label in Reihe 1, zentriert */
+  .footer-label {
+    grid-row: 1; 
+    justify-self: center;
+    display: block;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0d2545; 
+    text-align: center; 
+    text-transform: uppercase; /* Alle Buchstaben gross */
+    margin: 0 0 0.3rem 0; /* Abstand nach unten */
+  }
+  
+  /* Buttons in Reihe 2, zentriert */
+  .footer-daten .ergebnis-button {
+    grid-row: 2;
+    justify-self: center;
+  }
+  
 
 h3 {
     color: var(--weiss);

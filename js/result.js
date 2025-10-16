@@ -87,8 +87,9 @@ if ($ortUndStufe) {
   };
   const sKey    = normalizeStufe(stufe);
   const sLabel  = sKey ? (STUFE_LABELS[sKey] || stufe) : '—';
-  const oLabel  = ort || '—';
+  const oLabel  = (ort || '—').toLowerCase();  // ort klein ausgeben
   $ortUndStufe.textContent = `${oLabel} · ${sLabel}`;
+
 }
 
 

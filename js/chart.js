@@ -23,36 +23,46 @@ async function fetchData() {
   return await response.json();
 }
 
+
+
 // 25-Stunden Serie (00:00–24:00) eines Tages
 function buildSeries(data, location, selectedDate) {
   if (!location || !selectedDate) return Array(25).fill(null);
 
-  // Tag in UTC Grenzen
+  const locLC = String(location).toLowerCase();
+
+  // Tagesgrenzen (UTC)
   const [year, month, day] = selectedDate.split('-').map(Number);
   const dayStart = Date.UTC(year, month - 1, day, 0, 0, 0) / 1000;
-  const dayEnd = dayStart + 24 * 3600;
 
-  // Filter Ort + Tag
+  // WICHTIG: bis 24:59 des Folgetags zulassen (25h Fenster)
+  const filterEnd = dayStart + 25 * 3600;
+
+  // Ort & Zeitfenster filtern (oberes Ende exklusiv!)
   const filtered = data.filter(row => {
     const ts = parseTimestamp(row.timestamp);
-    return row.orte === location && ts >= dayStart && ts <= dayEnd;
+    return row.orte && String(row.orte).toLowerCase() === locLC && ts >= dayStart && ts < filterEnd;
   });
 
-  // Stündlich gruppieren (letzter Wert pro Stunde)
+  // Stündlich gruppieren -> Index aus Abstand zu dayStart
   const hourlyData = new Map();
   filtered.forEach(row => {
     const ts = parseTimestamp(row.timestamp);
-    const hour = new Date(ts * 1000).getUTCHours();
-    hourlyData.set(hour, Number(row.aare_temp));
+    let idx = Math.floor((ts - dayStart) / 3600); // 0..24+
+    if (idx < 0) idx = 0;
+    if (idx > 24) idx = 24; // Alles ab 24:00 auf den letzten Bin
+    hourlyData.set(idx, Number(row.aare_temp)); // letzter Wert gewinnt
   });
 
-  // 25 Punkte bauen
+  // 25 Punkte (00..24)
   const series = [];
   for (let h = 0; h <= 24; h++) {
     series.push(hourlyData.get(h) ?? null);
   }
   return series;
 }
+
+
 
 // ===== Chart =====
 const HOUR_LABELS = Array.from({ length: 25 }, (_, i) => `${String(i).padStart(2, '0')}:00`);

@@ -76,7 +76,7 @@ function createChart() {
       plugins: {
         title: { 
           display: true, 
-          text: 'Temperatur-Tabelle der Aare',
+          text: 'dr verlouf vode letste stung',
           color: '#f4f2ef',
           font: {
             family: 'Aptly', 
@@ -97,12 +97,12 @@ function createChart() {
         x: {
           title: { display: true, text: 'zeitpunkt (in stunden)', color: '#f4f2ef', font: { family: 'Aptly' } },
           ticks: { color: '#f4f2ef', maxRotation: 90, minRotation: 90, font: { family: 'Aptly' } },
-          grid: { color: rgba(244, 242, 239, 0.8) }
+          grid: { color: '#9f9d9a' }
         },
         y: {
           title: { display: true, text: 'temperatur (°C)', color: '#f4f2ef', font: { family: 'Aptly' } },
           ticks: { color: '#f4f2ef', font: { family: 'Aptly' } },
-          grid: { color: rgba(244, 242, 239, 0.8) },
+          grid: { color: '#9f9d9a' },
           suggestedMin: 0,
           suggestedMax: 20
         }

@@ -155,3 +155,36 @@ document.addEventListener('DOMContentLoaded', async () => {
   $location.addEventListener('change', updateChart);
   $date.addEventListener('change', updateChart);
 });
+
+
+
+
+
+
+// === Deep-Link Init: ort & date übernehmen ===
+document.addEventListener('DOMContentLoaded', async () => {
+  const q = new URLSearchParams(location.search);
+  const ortFromURL  = q.get('ort');
+  const dateFromURL = q.get('date');
+
+  // Warten, bis Dropdown gefüllt ist (dropdown.js macht das async)
+  const $loc = document.getElementById('orte');
+  const $date = document.getElementById('date');
+
+  if (dateFromURL && $date) {
+    $date.value = dateFromURL;
+  }
+
+  if (!ortFromURL) return; // nichts zu tun
+
+  const trySelect = setInterval(() => {
+    const hasOption = Array.from($loc.options).some(o => o.value === ortFromURL);
+    if (hasOption) {
+      $loc.value = ortFromURL;
+      clearInterval(trySelect);
+
+      // gleich Chart updaten
+      if (typeof updateChart === 'function') updateChart();
+    }
+  }, 100);
+});

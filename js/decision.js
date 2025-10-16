@@ -37,19 +37,7 @@ console.log('Buttons gefunden:', document.querySelectorAll('.auswahlbutton').len
 // load Orte (same as before) ...
 // stufe selection (same as before) ...
 
-function goToResult() {
-  const ort = $select.value;
-  if (!ort) { alert('Bitte Ort auswählen'); return; }
 
-  // also store in sessionStorage as fallback (in case someone opens result.html directly)
-  sessionStorage.setItem('ort', ort);
-  sessionStorage.setItem('stufe', selectedStufe || '');
-
-  const qs = new URLSearchParams({ ort, stufe: selectedStufe || '' }).toString();
-  window.location.href = `result.html?${qs}`;
-}
-
-$goBtn?.addEventListener('click', goToResult);
 
 
 

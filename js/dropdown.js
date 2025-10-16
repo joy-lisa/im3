@@ -19,12 +19,9 @@ function populateLocations(apiData) {
         option.textContent = loc;
         $location.appendChild(option);
     });
-
-    // Auto-select first location
-    if (locations.length > 0) {
-        $location.value = locations[0];
-    }
 }
+
+
 async function fetchData() {
     const response = await fetch(API_URL, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Error: ${response.status}`);

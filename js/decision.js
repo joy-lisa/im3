@@ -3,6 +3,24 @@
 // js/decision.js
 //const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
+
+// === Reset beim Laden: immer frischer Start ===
+document.addEventListener('DOMContentLoaded', () => {
+  // alles zurücksetzen
+  ['selectedOrt', 'selectedStufe', 'selectedDate'].forEach(k => localStorage.removeItem(k));
+
+  // Dropdown + Buttons visuell zurücksetzen
+  const $ort = document.getElementById('orte');
+  if ($ort) $ort.selectedIndex = 0;
+
+  const stufeBtns = document.querySelectorAll('.auswahlbutton');
+  stufeBtns.forEach(btn => btn.classList.remove('active'));
+});
+
+
+
+
+
 const $goBtn    = document.getElementById('findsuse-btn');
 const stufeBtns = document.querySelectorAll('.auswahlbutton');
 const $select = document.getElementById('orte');
@@ -19,19 +37,7 @@ console.log('Buttons gefunden:', document.querySelectorAll('.auswahlbutton').len
 // load Orte (same as before) ...
 // stufe selection (same as before) ...
 
-function goToResult() {
-  const ort = $select.value;
-  if (!ort) { alert('Bitte Ort auswählen'); return; }
 
-  // also store in sessionStorage as fallback (in case someone opens result.html directly)
-  sessionStorage.setItem('ort', ort);
-  sessionStorage.setItem('stufe', selectedStufe || '');
-
-  const qs = new URLSearchParams({ ort, stufe: selectedStufe || '' }).toString();
-  window.location.href = `result.html?${qs}`;
-}
-
-$goBtn?.addEventListener('click', goToResult);
 
 
 

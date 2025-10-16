@@ -148,7 +148,7 @@ for (let i = 1; i <= 4; i++) {
 
   // Text setzen (— falls keine Daten)
   const label = Number.isFinite(avg) ? `${avg.toFixed(1)}°` : '—';
-  const link = footerLinks[i - 1];
+  const link = footerLinks[footerLinks.length - i];
   if (link) {
     link.textContent = label;
     // optional: passender Deep-Link inkl. Ort & Datum (falls du das auf daten.html auswertest)
@@ -364,13 +364,13 @@ function getDecisionFor(tempFloat, stufeRaw) {
 
 // ---- 3) Entscheidung → finaler Spruch ----
 const RESULT_TEXT = {
-  'nein':        'Heute lieber nicht 🧊',
-  'gehtschon':   'Geht schon – kurz und knackig!',
-  'ja':          'Ja – pack die Badehose ein!',
-  'unbedingt':   'Hüpf sofort rein! 🌊'
+  'nein':        'Wirsch zum Iszapfe!',
+  'gehtschon':   'Eher no chli früsch!',
+  'ja':          'Pack din Schnorchel ii!',
+  'unbedingt':   'Hüpf i Chochtopf!'
 };
 
-// Hilfsfunktion um finalen Text zu bekommen
+// wenn keine stufe ausgewählt
 function getSpruch(result) {
-  return RESULT_TEXT[result] || 'hüt wüsse mers nöd so rächt';
+  return RESULT_TEXT[result] || 'meinsch chasches wage?';
 }

@@ -16,7 +16,7 @@ function populateLocations(apiData) {
     locations.forEach(loc => {
         const option = document.createElement('option');
         option.value = loc;
-        option.textContent = loc;
+        option.textContent = String(loc).toLowerCase(); // Anzeige klein
         $location.appendChild(option);
     });
 }

@@ -32,7 +32,7 @@ textarea {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
     height: 99vh;
     width: 100%;
     max-width: 400px;
@@ -123,6 +123,17 @@ body.decision-body {
     background-color: var(--weiss);
 }
 
+.decision-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    box-sizing: border-box;
+    padding: 100px;
+}
+
 h2.titelentscheid {
     color: var(--dunkelblau);
     text-align: center;
@@ -130,6 +141,7 @@ h2.titelentscheid {
     font-size: 40px;
     font-weight: 700;
     margin: 0 auto 40px;
+    position: relative;
 }
 
     /* .auswahlcontainer {
@@ -169,6 +181,7 @@ h2.titelentscheid {
 .select {
     display: flex;
     flex-direction: column;
+    align-items: center;
     /* align-items: center;
     justify-content: center; */
 }

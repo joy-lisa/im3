@@ -1,9 +1,3 @@
-// js/decision.js
-
-// js/decision.js
-//const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
-
-
 // === Reset beim Laden: immer frischer Start ===
 document.addEventListener('DOMContentLoaded', () => {
   // alles zurücksetzen
@@ -31,16 +25,6 @@ let selectedStufe = '';
 // === DEBUG: überprüfen, ob Script und Buttons erkannt werden ===
 console.log('[decision.js] geladen');
 console.log('Buttons gefunden:', document.querySelectorAll('.auswahlbutton').length);
-
-
-
-// load Orte (same as before) ...
-// stufe selection (same as before) ...
-
-
-
-
-
 
 
 

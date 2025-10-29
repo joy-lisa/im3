@@ -3,8 +3,7 @@ const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
 
 
 const $location = document.getElementById('orte');
-//const $date = document.getElementById('date');
-//const $canvas = document.getElementById('myAareChart');
+
 
 //===== Fill location dropdown =====
 function populateLocations(apiData) {

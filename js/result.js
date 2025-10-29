@@ -63,17 +63,10 @@ function tsToUnix(tsStr) {
 
 
 
-
-    
-
-
-
-
     // === SPRUCH ANZEIGEN ===
     const $spruchEl = document.querySelector('h2.spruch'); // dein Spruchfeld
 const params2 = new URLSearchParams(location.search);
 const stufe = params2.get('stufe') || localStorage.getItem('selectedStufe') || '';
-
 
 
 
@@ -93,13 +86,8 @@ if ($ortUndStufe) {
 }
 
 
-
-
-
 const result = getDecisionFor(latest.temp, stufe);
 if ($spruchEl) $spruchEl.textContent = getSpruch(result);
-
-
 
 
     // === TAGESMITTEL DER LETZTEN 4 TAGE ANZEIGEN ===

@@ -1,9 +1,3 @@
-// --- chart.js (drop-in) ---
-
-
-// const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
-
-// const $location = document.getElementById('orte');
 const $date = document.getElementById('date');
 const $canvas = document.getElementById('myAareChart');
 
@@ -12,7 +6,6 @@ let apiData = (typeof window.apiData !== 'undefined') ? window.apiData : []; // 
 
 // ===== Helpers =====
 function parseTimestamp(timestamp) {
-  // "2025-10-09 00:02:23" -> Unix seconds (UTC)
   const isoString = timestamp.replace(' ', 'T') + 'Z';
   return Math.floor(new Date(isoString).getTime() / 1000);
 }
@@ -35,7 +28,7 @@ function buildSeries(data, location, selectedDate) {
   const [year, month, day] = selectedDate.split('-').map(Number);
   const dayStart = Date.UTC(year, month - 1, day, 0, 0, 0) / 1000;
 
-  // WICHTIG: bis 24:59 des Folgetags zulassen (25h Fenster)
+  // WICHTIG: das drinnen lassen um bis 24:59 des Folgetags zuzulassen (25h Fenster)
   const filterEnd = dayStart + 25 * 3600;
 
   // Ort & Zeitfenster filtern (oberes Ende exklusiv!)
@@ -185,8 +178,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   $location.addEventListener('change', updateChart);
   $date.addEventListener('change', updateChart);
 });
-
-
 
 
 

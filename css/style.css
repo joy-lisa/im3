@@ -381,12 +381,20 @@ footer {
 }
 
 .footer-daten {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-rows: auto auto;   /* Zeile 1: Label, Zeile 2: Button */
+    grid-auto-flow: column;           /* erst nach unten, dann neue Spalte */
+    grid-auto-columns: max-content;   /* Spalten so breit wie nötig */
+    gap: 6px 16px;                    /* Abstand: Zeilen x Spalten */
+    justify-content: center;          /* Gesamtblock zentrieren */
+    align-items: start;
     margin-top: 30px;
+}
+
+/* Optional, etwas Luft unterm Label */
+.footer-label {
+    text-align: center;
+    margin-bottom: 0.2rem;
 }
 
 h3 {
@@ -698,7 +706,7 @@ body.daten-body {
     line-height: normal;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 460px) {
     .page-container {
         justify-content: space-evenly;
         padding: 3vh 1rem;
@@ -721,13 +729,21 @@ body.daten-body {
   }
 
   .footer-daten {
-    display: flex;
-    flex-wrap: nowrap;          /* alles in einer Zeile */
-    justify-content: center;
-    gap: 0.4rem;
-    overflow-x: auto;           /* erlaubt horizontales Scrollen bei Bedarf */
-    -webkit-overflow-scrolling: touch; /* smoother Scroll auf iOS */
-  }
+    display: grid;
+    grid-template-rows: auto auto;   /* Zeile 1: Label, Zeile 2: Button */
+    grid-auto-flow: column;           /* erst nach unten, dann neue Spalte */
+    grid-auto-columns: max-content;   /* Spalten so breit wie nötig */
+    gap: 6px 16px;                    /* Abstand: Zeilen x Spalten */
+    justify-content: center;          /* Gesamtblock zentrieren */
+    align-items: start;
+    margin-top: 30px;
+}
+
+/* Optional, etwas Luft unterm Label */
+.footer-label {
+    text-align: center;
+    margin-bottom: 0.2rem;
+}
 
   .footer-daten::-webkit-scrollbar {
     display: none; /* Scrollbar ausblenden */

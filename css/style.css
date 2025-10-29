@@ -35,8 +35,8 @@ textarea {
     /* align-items: center; */
     height: 99vh;
     width: 100%;
-    max-width: 400px;
-    padding: 2rem 1rem; 
+    /* max-width: 400px; */
+    padding: 50px 16px; 
     box-sizing: border-box;
     text-align: center;
 }
@@ -93,7 +93,7 @@ h1 {
 /*class mit h2*/
 .subtitle {
     color: var(--dunkelblau);
-    font-size: clamp(16px, 3.5vw, 22px);
+    font-size: 40px;
     /* responsive Schriftgröße */
     font-weight: 700;
     /* text-align: center; */
@@ -525,6 +525,12 @@ body.daten-body {
         /* padding-left: 21px; */
     }
 
+    #date,
+#orte_daten {
+  box-sizing: border-box;
+  width: 338px;
+}
+
 
 
 /*buttons*/
@@ -592,18 +598,24 @@ body.daten-body {
 /* button index.html */
 
 .yes-button {
-    height: clamp(60px, 10vh, 90px);
+    width: 338px;
+    height: 97px;
     border-radius: 20px;
     border: 4px solid var(--orange, #E8BA71);
     background-color: var(--weiss, #F4F2EF);
     box-shadow: 0 0 13px 4px #E8BA71 inset;
-    font-size: clamp(28px, 7vw, 50px);
+    color: var(--light-orange, #E8BA71);
+    text-align: center;
+    font-family: Aptly;
+    font-size: 64px;
+    font-style: normal;
     font-weight: 700;
-    color: var(--orange);
+    line-height: normal;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    /* width: 338px;
-    height: 97px;
+    
+
+    /*
     border-radius: 20px;
     border: 4px solid var(--orange, #E8BA71);
     background: var(--weiss, #F4F2EF);
@@ -712,13 +724,89 @@ body.daten-body {
         padding: 3vh 1rem;
     }
     
-    titel h1 {
-        font-size: clamp(50px, 10vw, 90px);
+    h1.titel {
+        font-size: 120px;
     }
 
     .yes-button {
         height: 60px;
         font-size: 24px;
+    }
+
+    h2.titelentscheid {
+        font-size: 28px;
+    }
+
+    .decision-wrapper {
+        padding: 20px;
+    }
+
+    .wohere {
+        font-size: 28px;
+    }
+
+    .stufe {
+        font-size: 28px;
+    }
+
+    .zruegg-button {
+        width: 49px;
+        height: 46px;
+        font-size: 15px;
+        border-radius: 15px;
+        border: 3px solid var(--dunkelblau);
+        background: var(--weiss);
+        box-shadow: 0 0 9.5px 1px var(--dunkelblau) inset;
+
+         /* Positionierung oben links */
+        position: absolute;
+        /* bleibt beim Scrollen sichtbar */
+        top: 20px;
+        /* Abstand vom oberen Rand */
+        left: 20px;
+        /* Abstand vom linken Rand */
+        z-index: 100;
+        /* damit nichts drüberliegt */
+    }
+
+    .zruegg-button-daten {
+        width: 49px;
+        height: 46px;
+        font-size: 15px;
+        border-radius: 15px;
+        border: 3px solid var(--orange);
+        background: var(--dunkelblau);
+        box-shadow: 0 0 9.5px 1px var(--orange) inset;
+
+         /* Positionierung oben links */
+        position: absolute;
+        /* bleibt beim Scrollen sichtbar */
+        top: 20px;
+        /* Abstand vom oberen Rand */
+        left: 20px;
+        /* Abstand vom linken Rand */
+        z-index: 100;
+        /* damit nichts drüberliegt */
+    }
+
+    .zruegg-button-result {
+        width: 49px;
+        height: 46px;
+        font-size: 15px;
+        border-radius: 15px;
+        border: 3px solid var(--dunkelblau);
+        background: var(--orange);
+        box-shadow: 0 0 9.5px 1px var(--dunkelblau) inset;
+
+         /* Positionierung oben links */
+        position: absolute;
+        /* bleibt beim Scrollen sichtbar */
+        top: 20px;
+        /* Abstand vom oberen Rand */
+        left: 20px;
+        /* Abstand vom linken Rand */
+        z-index: 100;
+        /* damit nichts drüberliegt */
     }
 
     .footer-titel {
@@ -777,6 +865,15 @@ body.daten-body {
   font-size: 36px;
   font-weight: 700;
   line-height: 1; 
+  }
+
+  .auswahlcontainer_daten {
+    position: absolute;
+    top: 20px; 
+    align-items: center;
+    justify-content: center; /* <— wichtig! */
+    left: 0;
+    right: 0;
   }
     
 }

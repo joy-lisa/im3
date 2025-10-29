@@ -261,18 +261,32 @@ body.result-body {
     background-color: var(--orange) !important;
     min-height: 100vh;
     display: flex;
+    overflow: hidden;
+    height: 100%;
 }
 
-img {
+.bubbler1 {
     position: fixed;
-    left: 95%;
-    top: 50px;
-    transform: translateX(-50%);
+    left: 5%;
+    top: 200px;
+    transform: translateX(-50%) scaleX(-1);
     width: 50%;
     max-width: 600px;
     height: auto;
     z-index: 0;
 }
+
+.bubbler2 {
+    position: fixed;
+    right: 5%;
+    top: 50px;
+    transform: translateX(50%);
+    width: 50%;
+    max-width: 600px;
+    height: auto;
+    z-index: 0;
+}
+
 
 .result-wrapper {
     display: flex;
@@ -282,7 +296,7 @@ img {
     max-width: 1200px;
     padding: 20px;
     box-sizing: border-box;
-    margin-top: -50px;
+    margin-top: -150px;
 }
 
 .resultat-angaben {
@@ -301,9 +315,9 @@ img {
 
 .result-footer {
     background-color: var(--weiss);
-    width: 70%;
+    width: relative;
     bottom: 0px;
-    padding: 50px 0px 20px 0px;
+    padding: 50px 20px 20px 20px;
     text-align: center;
     border-radius: 75px 75px 0px 0px;
 
@@ -356,7 +370,7 @@ footer {
 }
 
 .footer-titel {
-    color: var(--dunkelblau);
+    color: var(--weiss);
     font-family: Aptly;
     font-size: 40px;
     font-style: normal;
@@ -419,7 +433,7 @@ body.daten-body {
     line-height: normal;
 
     /* Positionierung oben links */
-    position: fixed;
+    position: relative;
     /* bleibt beim Scrollen sichtbar */
     top: 50px;
     /* Abstand vom oberen Rand */
@@ -513,6 +527,36 @@ body.daten-body {
     border-radius: 20px;
     border: 4px solid var(--dunkelblau);
     background: var(--weiss, #F4F2EF);
+
+    /* shadow button */
+    box-shadow: 0 0 13px 4px var(--dunkelblau) inset;
+
+    /*font*/
+    color: var(--dunkelblau);
+    text-align: center;
+    font-family: Aptly;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    /* Positionierung oben links */
+    position: fixed;
+    /* bleibt beim Scrollen sichtbar */
+    top: 50px;
+    /* Abstand vom oberen Rand */
+    left: 50px;
+    /* Abstand vom linken Rand */
+    z-index: 100;
+    /* damit nichts drüberliegt */
+}
+
+.zruegg-button-result {
+    width: 137px;
+    height: 51px;
+    border-radius: 20px;
+    border: 4px solid var(--dunkelblau);
+    background: var(--orange);
 
     /* shadow button */
     box-shadow: 0 0 13px 4px var(--dunkelblau) inset;
@@ -654,7 +698,7 @@ body.daten-body {
     line-height: normal;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 400px) {
     .page-container {
         justify-content: space-evenly;
         padding: 3vh 1rem;
@@ -668,5 +712,50 @@ body.daten-body {
         height: 60px;
         font-size: 24px;
     }
+
+    .result-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .footer-daten {
+    display: flex;
+    flex-wrap: nowrap;          /* alles in einer Zeile */
+    justify-content: center;
+    gap: 0.4rem;
+    overflow-x: auto;           /* erlaubt horizontales Scrollen bei Bedarf */
+    -webkit-overflow-scrolling: touch; /* smoother Scroll auf iOS */
+  }
+
+  .footer-daten::-webkit-scrollbar {
+    display: none; /* Scrollbar ausblenden */
+  }
+
+  .ergebnis-button {
+    width: 84px;                /* feste Breite */
+    height: 87px;               /* feste Höhe */
+    flex-shrink: 0;             /* verhindert, dass Buttons kleiner werden */
+    font-size: 0.7rem;          /* etwas kleinere Schrift */
+    padding: 0.3rem;
+    border-radius: 8px;
+    border: 2px solid #000;
+    background: transparent;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .footer-button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
     
 }

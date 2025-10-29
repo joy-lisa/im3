@@ -79,7 +79,7 @@ function createChart() {
       plugins: {
         title: { 
           display: true, 
-          text: 'dr verlouf vode letste stung',
+          text: 'dr verlouf vode letste stunde a dem tag',
           color: '#f4f2ef',
           font: {
             family: 'Aptly', 

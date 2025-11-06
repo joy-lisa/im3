@@ -31,14 +31,15 @@ textarea {
 .page-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    /* align-items: center; */
-    height: 99vh;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     width: 100%;
     /* max-width: 400px; */
     padding: 50px 16px; 
     box-sizing: border-box;
     text-align: center;
+    gap: 40px;
 }
 
 .button-container {
@@ -61,13 +62,6 @@ textarea {
     gap: 0;
     align-items: center;
     line-height: 0.9;
-}
-
-.titel h1 {
-    color: var(--dunkelblau);
-    font-size: clamp(60px, 12vw, 110px);
-    font-weight: 700;
-    margin: 0;
 }
 
 h1 {
@@ -97,8 +91,10 @@ h1 {
     /* responsive Schriftgröße */
     font-weight: 700;
     /* text-align: center; */
-    margin: 2rem 0;
+    /* margin: 2rem 0; */
     line-height: 1.3;
+    margin: 0;
+
     /* max-width: 90%; */
 }
 
@@ -112,27 +108,32 @@ h1 {
 
 /*decision.html*/
 
-body.decision-body {
+.decision-body {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding-top: 40px; /* Platz für den fixierten Titel schaffen */
+    height: 100vh;
+    width: 100%;
+    /* max-width: 400px; */
+    padding: 50px 16px; 
     box-sizing: border-box;
-    background-color: var(--weiss);
+    text-align: center;
+    gap: 60px;
 }
+    
 
-.decision-wrapper {
-    display: flex;
+/* .decision-wrapper {
+    /* justify-content: space-between; */
+    /* display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: 1200px;
     padding: 20px;
     box-sizing: border-box;
-    padding: 100px;
-}
+    padding: 100px; 
+} */
 
 h2.titelentscheid {
     color: var(--dunkelblau);
@@ -144,22 +145,12 @@ h2.titelentscheid {
     position: relative;
 }
 
-    /* .auswahlcontainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 20px;
-} */
-
     /* Container für die beiden Divs */
     .entscheidungscontainer {
         display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 4rem;
+        justify-content: space-between;        /* align-items: flex-start; */
+        gap: 60px;
         flex-wrap: wrap;
-        /* width: 100%; */
-        max-width: 1200px;
         padding: 0 1rem;
         box-sizing: border-box;
         text-align: center;
@@ -167,7 +158,6 @@ h2.titelentscheid {
 
     /* Jedes Element soll schön in der Reihe stehen */
     .entscheidungscontainer > div {
-        flex: 1 1 250px;
         min-width: 250px;
     }
 
@@ -176,6 +166,7 @@ h2.titelentscheid {
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 100%;
     }
 
 .select {
@@ -613,6 +604,12 @@ body.daten-body {
     line-height: normal;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+
+    position: fixed;
+  bottom: 40px;        /* Abstand vom unteren Rand */
+  left: 50%;
+  transform: translateX(-50%); /* zentriert horizontal */
+  z-index: 100;
     
 
     /*
@@ -647,18 +644,29 @@ body.daten-body {
 /* button decision.html */
 
 .findsuse-button {
-    width: 250px;
-    height: 80px;
-    font-size: 40px;
-    font-weight: 700;
+    width: 338px;
+    height: 97px;
     border-radius: 20px;
-    border: 4px solid var(--orange);
-  background: var(--weiss);
-  color: var(--orange);
-  box-shadow: 0 0 13px 4px var(--orange) inset;
-  transition: all 0.2s ease;
-  position: static; /* Entfernt absolute/relative Positionierung */
+    border: 4px solid var(--orange, #E8BA71);
+    background-color: var(--weiss, #F4F2EF);
+    box-shadow: 0 0 13px 4px #E8BA71 inset;
+    color: var(--light-orange, #E8BA71);
+    text-align: center;
+    font-family: Aptly;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+  position: fixed;
+  bottom: 40px;        /* Abstand vom unteren Rand */
+  left: 50%;
+  transform: translateX(-50%); /* zentriert horizontal */
+  z-index: 100;
 }
+
 
 .findsuse-button:hover {
   background: var(--orange);

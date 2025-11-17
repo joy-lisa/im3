@@ -91,19 +91,20 @@ function createChart() {
           labels: { 
             color: '#f4f2ef', 
             font: { 
-              family: 'Aptly', 
+              family: 'Aptly',
+              size: 18,
             }
           }
         },
       },
       scales: {
         x: {
-          title: { display: true, text: 'zeitpunkt (in stunden)', color: '#f4f2ef', font: { family: 'Aptly' } },
+          title: { display: true, text: 'zeitpunkt (in stunden)', color: '#f4f2ef', font: { family: 'Aptly', size: 18 } },
           ticks: { color: '#f4f2ef', maxRotation: 90, minRotation: 90, font: { family: 'Aptly' } },
           grid: { color: '#9f9d9a' }
         },
         y: {
-          title: { display: true, text: 'temperatur (°C)', color: '#f4f2ef', font: { family: 'Aptly' } },
+          title: { display: true, text: 'temperatur (°C)', color: '#f4f2ef', font: { family: 'Aptly', size: 18 } },
           ticks: { color: '#f4f2ef', font: { family: 'Aptly' } },
           grid: { color: '#9f9d9a' },
           suggestedMin: 0,

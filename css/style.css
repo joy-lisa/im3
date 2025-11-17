@@ -259,10 +259,10 @@ body.result-body {
 .bubbler1 {
     position: fixed;
     left: 5%;
-    top: 200px;
+    top: 300px;
     transform: translateX(-50%) scaleX(-1);
     width: 50%;
-    max-width: 600px;
+    max-width: 400px;
     height: auto;
     z-index: 0;
 }
@@ -727,26 +727,60 @@ body.daten-body {
 }
 
 @media (max-width: 460px) {
-    .page-container {
-        justify-content: space-evenly;
-        padding: 3vh 1rem;
+
+    .index-body {
+        overflow: hidden;
     }
     
-    h1.titel {
-        font-size: 120px;
+    h1 {
+        font-size: 100px;
+    }
+
+    .subtitle {
+        font-size: 26px;
+        height: 300px;
+    }   
+
+    .page-container {
+        justify-content: space-between;
+        padding: 3vh 1rem;
     }
 
     .yes-button {
-        height: 60px;
-        font-size: 24px;
+        color: var(--light-orange, #E8BA71);
+        text-align: center;
+        font-family: Aptly;
+        font-size: 64px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
     }
 
     h2.titelentscheid {
+        padding: 0;
+        margin: 0;
         font-size: 28px;
     }
 
-    .decision-wrapper {
+    /* .decision-wrapper {
         padding: 20px;
+    } */
+
+    .entscheidungscontainer {
+        justify-content: center;
+        gap: 10px;
+    }
+
+.de-body {
+    overflow: hidden;
+}
+
+    .decision-body {
+        /* padding: 3vh 1rem; */
+        gap: 30px;
+        justify-content: flex-start;
+        display: flex;
+        padding-top: 70px;
     }
 
     .wohere {
@@ -755,6 +789,11 @@ body.daten-body {
 
     .stufe {
         font-size: 28px;
+    }
+
+    .auswahlbutton {
+        width: 101px;
+        height: 101px;
     }
 
     .zruegg-button {
@@ -815,6 +854,16 @@ body.daten-body {
         /* Abstand vom linken Rand */
         z-index: 100;
         /* damit nichts drüberliegt */
+    }
+
+    .bubbler1 {
+        display: none;
+    }
+
+    .bubbler2 {
+        top: 274px;
+        width: 250px;
+        rotate: -11deg;
     }
 
     .footer-titel {

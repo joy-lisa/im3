@@ -695,7 +695,7 @@ body.daten-body {
 }
 
 .auswahlbutton.active {
-    background: var(--dunkelblau);
+    background: var(--orange);
     color: var(--weiss);
     outline: 2px solid transparent;
     transform: translateY(-1px);
@@ -727,6 +727,10 @@ body.daten-body {
     font-weight: 700;
     line-height: normal;
 }
+
+/* .chart-container {
+    width: 100%;
+} */
 
 @media (max-width: 460px) {
 
@@ -764,9 +768,12 @@ body.daten-body {
     }
 
     h2.titelentscheid {
-        padding: 0;
-        margin: 0;
+        padding-top: -40px;
         font-size: 28px;
+    }
+
+    h2.spruch {
+        margin: 0px;
     }
 
     /* .decision-wrapper {
@@ -791,8 +798,9 @@ body.daten-body {
         gap: 30px;
         /* justify-content: flex-start; */
         display: flex;
-        /* padding-top: 100px; */
-        vertical-align: middle;    }
+        vertical-align: middle;  
+        padding: 100px 0px;    
+    }
 
     .wohere {
         font-size: 28px;
@@ -944,4 +952,20 @@ body.daten-body {
     right: 0;
   }
     
+/* .chart-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 20px;
+}
+
+.chart-inner {
+    width: 700px;
+    height: 400px;
+}
+
+#myAareChart {
+    width: 700px !important;
+    height: 400px !important;
+} */
 }

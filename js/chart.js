@@ -60,6 +60,7 @@ function buildSeries(data, location, selectedDate) {
 // ===== Chart =====
 const HOUR_LABELS = Array.from({ length: 25 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
 
+
 function createChart() {
   chart = new Chart($canvas, {
     type: 'line',

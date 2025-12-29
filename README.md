@@ -23,7 +23,7 @@ Das App-Design soll simpel sein, damit Jung & Alt einfach zur personalisierten E
 In diesem Projekt war mein grösstes Learning das Erstellen einer eigenen Datenbank, nicht nur auf der technischen Ebene sondern auch konzeptionell und strukturell verstehe ich nun den Aufbau einer solchen App mehr. Zudem festigte und vertiefte ich mein Wissen in Javascript-Funktionen, womit ich anfangs noch sehr Schwierigkeiten und ein ziemliches Chaos im Kopf hatte. Auch das Laden und Abrufen der API-Daten war mir zu Beginn noch zu komplex, durch das selbstständige Schreiben des Codes finde ich es aber jetzt sehr verständlich.
 
 ## Learnings und Schwierigkeiten Joy
-xxx
+Das grösste Learning in diesem Projekt war für mich die Strukturierung des Codes. So langsam weiss man, wie man Dinge stylt mit CSS, diese jedoch dann in eine logische und saubere Form zu bringen fand ich gar nicht so einfach. Ich habe mein Verständnis für den Code sehr verbessert durch das selbst erarbeiten und auch durch die spätere Fehlerbehebung.
 
 ---
 ## Benutzte Ressourcen und Prompts 

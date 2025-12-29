@@ -76,22 +76,13 @@ function createChart() {
       }]
     },
     options: {
-      responsive: true,
+      responsive: false,
+      maintainAspectRatio: false,
       plugins: {
-        title: { 
-          display: true, 
-          text: 'dr verlouf vode letste stunde a dem tag',
-          color: '#f4f2ef',
-          font: {
-            family: 'Aptly', 
-            size: 24, 
-            weight: 'bold'
-          }
-         },
         legend: {
-          labels: { 
-            color: '#f4f2ef', 
-            font: { 
+          labels: {
+            color: '#f4f2ef',
+            font: {
               family: 'Aptly',
               size: 18,
             }
@@ -182,12 +173,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-
-
 // === Deep-Link Init: ort & date übernehmen ===
 document.addEventListener('DOMContentLoaded', async () => {
   const q = new URLSearchParams(location.search);
-  const ortFromURL  = q.get('ort');
+  const ortFromURL = q.get('ort');
   const dateFromURL = q.get('date');
 
   // Warten, bis Dropdown gefüllt ist (dropdown.js macht das async)

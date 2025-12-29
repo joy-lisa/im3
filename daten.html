@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://use.typekit.net/rra8ojn.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://use.typekit.net/rra8ojn.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body class="daten-body">
 
-    <!--zurück button-->
-    <div>
+  <!--zurück button-->
+  <div>
     <a href="result.html">
-    <button class="zruegg-button-daten">ZRÜGG</button>
+      <button class="zruegg-button-daten">ZRÜGG</button>
     </a>
   </div>
 
-<div class="auswahlcontainer_daten">
+  <div class="auswahlcontainer_daten">
 
-     <!--ort-->
+    <!--ort-->
     <div class="select">
       <label for="orte" class="wohere_daten">wo?</label>
       <select class="dropdown_daten" id="orte">
@@ -29,24 +31,29 @@
     </div>
 
     <div class="date">
-    <label class="date-label" for="date">wele tag?</label>
-    <input type="date" id="date">
-   </div> 
-   
+      <label class="date-label" for="date">wele tag?</label>
+      <input type="date" id="date">
+    </div>
+
+    <div class="chart-container">
+      <div>
+        <label for="chart" class="charttitel">dr verlouf vode letste stunde a dem tag</label>
+      </div>
+      <div class="chart-inner">
+        <canvas id="myAareChart"></canvas>
+
+      </div>
+
+    </div>
+
+
   </div>
 
-  <div class="chart-container">
-  <div class="chart-inner">
-    <canvas id="myAareChart"></canvas>
-  </div>
-</div>
-    
+  <script src="js/dropdown.js"></script>
+  <!-- <script src="js/decision.js"></script> -->
+  <!-- <script src="js/script.js"></script> -->
+  <script src="js/chart.js"></script>
 
-   
-   <script src="js/dropdown.js"></script>
-   <!-- <script src="js/decision.js"></script> -->
-    <!-- <script src="js/script.js"></script> -->
-     <script src="js/chart.js"></script>
-    
 </body>
+
 </html>

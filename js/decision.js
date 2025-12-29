@@ -11,11 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   stufeBtns.forEach(btn => btn.classList.remove('active'));
 });
 
-
-
-
-
-const $goBtn    = document.getElementById('findsuse-btn');
+const $goBtn = document.getElementById('findsuse-btn');
 const stufeBtns = document.querySelectorAll('.auswahlbutton');
 const $select = document.getElementById('orte');
 let selectedStufe = '';

@@ -1,154 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://use.typekit.net/rra8ojn.css">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://use.typekit.net/rra8ojn.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body class="result-body">
-  
-    <!--zurück button-->
-    <div>
+
+  <!--zurück button-->
+  <div>
     <a href="decision.html">
-    <button class="zruegg-button-result">ZRÜGG</button>
+      <button class="zruegg-button-result">ZRÜGG</button>
     </a>
-    </div>
+  </div>
 
-    <img class="bubbler1" src="img/bubbler.png" alt="">
+  <img class="bubbler1" src="img/bubbler.png" alt="">
 
-    <img class="bubbler2" src="img/bubbler.png" alt="">
-    
-    <div class="result-wrapper">
+  <img class="bubbler2" src="img/bubbler.png" alt="">
+
+  <div class="result-wrapper">
 
     <!--text-->
     <div>
-    <h2 class="subtitle-result">di jetzigi temperatur</h2>
+      <h2 class="subtitle-result">di jetzigi temperatur</h2>
     </div>
 
-    <div class="resultat-angaben">
-    <!--temperatur-->
     <div>
-    <h1 class="temperatur">hier die aktuelle temperatur mit js</h1>
-    </div>
+      <!--temperatur-->
+      <div>
+        <h1 class="temperatur">hier die aktuelle temperatur mit js</h1>
+      </div>
 
-    <!--beschreibung-->
-    <!-- <div>
-      <p id="ausgabe-stufe"></p>
-      <p id="ausgabe-ort"></p>  
-    </div> -->
-  
-    <div>
-      <h3 class="ortundstufe">gewählter ort + gewählte stufe</h3>
-    </div>
+      <div>
+        <h3>gewählter ort + gewählte stufe</h3>
+      </div>
 
-    <!--spruch-->
-    <div class="spruch-container">
+      <!--spruch-->
+      <div class="spruch-container">
         <h2 class="spruch">"passender spruch zu gfrörlistufe"</h2>
-    </div>
+      </div>
 
     </div>
-    </div>
+  </div>
 
-    
 
-      <footer class="result-footer">
 
-        <p class="footer-titel">die letzte täg beobachte:</p>
+  <footer class="result-footer">
+
+    <p class="footer-titel">die letzte täg beobachte:</p>
 
     <div class="footer-daten">
-        <button class="ergebnis-button">
-            <a href="daten.html" class="footer-button">temp -1tag</a>
-        </button>
+      <button class="ergebnis-button">
+        <a href="daten.html" class="footer-button">temp -1tag</a>
+      </button>
 
-        <button class="ergebnis-button">
-            <a href="daten.html" class="footer-button">temp -2tag</a>
-        </button>
+      <button class="ergebnis-button">
+        <a href="daten.html" class="footer-button">temp -2tag</a>
+      </button>
 
-        <button class="ergebnis-button">
-            <a href="daten.html" class="footer-button">temp -3tag</a>
-        </button>
+      <button class="ergebnis-button">
+        <a href="daten.html" class="footer-button">temp -3tag</a>
+      </button>
 
-        <button class="ergebnis-button">
-            <a href="daten.html" class="footer-button">temp -4tag</a>
-        </button>
+      <button class="ergebnis-button">
+        <a href="daten.html" class="footer-button">temp -4tag</a>
+      </button>
     </div>
     </div>
 
-    </footer>
+  </footer>
 
-    <!-- <script>
-        const API_URL = 'https://im3hs25.jannastutz.ch/php/unload.php';
-        
-        // helpers
-        function tsToUnix(tsStr) {
-          // your API returns "YYYY-MM-DD HH:MM:SS" as local time; treat as UTC to be consistent
-          const iso = tsStr.replace(' ', 'T') + 'Z';
-          return Math.floor(new Date(iso).getTime() / 1000);
-        }
-        
-        function pickSpruch(temp, stufe) {
-          if (!Number.isFinite(temp)) return 'hüt wüsse mers nöd so rächt';
-          if (temp < 10)  return 'iglu boue bringts meh';
-          if (temp < 14)  return stufe === 'hertimnae' ? 'chli frisch, aber machbar' : 'bibelihaut vibes';
-          if (temp < 18)  return 'wär seisch – ab i d Aare!';
-          return 'summerfeeling pur';
-        }
-        
-        (async function init() {
-          const params = new URLSearchParams(location.search);
-          const ort   = params.get('ort');
-          const stufe = params.get('stufe') || '';
-        
-          const $tempEl   = document.querySelector('h1.temperatur');
-          const $descEl   = document.querySelector('h3');      // “d uswau vom ort + gfroerlistufe”
-          const $spruchEl = document.querySelector('h2.spruch');
-        
-          if (!ort) {
-            $tempEl.textContent = 'Kein Ort gewählt';
-            $descEl.textContent = 'bitte zrügg und Ort uswähle';
-            return;
-          }
-        
-          try {
-            const rows = await fetch(API_URL, { cache: 'no-store' }).then(r => r.json());
-        
-            // filter & parse
-            const parsed = rows
-              .filter(r => r.orte === ort)
-              .map(r => ({ ort: r.orte, temp: Number(r.aare_temp), ts: tsToUnix(r.timestamp) }))
-              .filter(r => Number.isFinite(r.temp) && Number.isFinite(r.ts));
-        
-            if (!parsed.length) {
-              $tempEl.textContent = `keini aktuelle Date für ${ort}`;
-              $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
-              return;
-            }
-        
-            // pick the latest by timestamp
-            const latest = parsed.reduce((a, b) => (a.ts > b.ts ? a : b));
-        
-            $tempEl.textContent = `${latest.temp.toFixed(1)}°C`;
-            $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
-            $spruchEl.textContent = pickSpruch(latest.temp, stufe);
-        
-            // optional: console for debugging
-            console.log('Latest row for', ort, latest);
-        
-          } catch (err) {
-            console.error(err);
-            $tempEl.textContent = 'Fehler bim Lade';
-          }
-        })();
-        </script> -->
-        
-<!-- result.html (add this right before </body>) -->
-<!-- <script src="js/dropdown.js"></script> -->
-<script src="js/script.js"></script>
-<script src="js/result.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/result.js"></script>
 
-    
+
 </body>
+
 </html>

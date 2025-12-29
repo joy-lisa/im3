@@ -25,7 +25,7 @@ async function fetchData() {
     const response = await fetch(API_URL, { cache: 'no-store' });
     if (!response.ok) throw new Error(`Error: ${response.status}`);
     return await response.json();
-  }
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {

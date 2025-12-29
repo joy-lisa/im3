@@ -65,111 +65,111 @@ function tsToUnix(tsStr) {
 
     // === SPRUCH ANZEIGEN ===
     const $spruchEl = document.querySelector('h2.spruch'); // dein Spruchfeld
-const params2 = new URLSearchParams(location.search);
-const stufe = params2.get('stufe') || localStorage.getItem('selectedStufe') || '';
+    const params2 = new URLSearchParams(location.search);
+    const stufe = params2.get('stufe') || localStorage.getItem('selectedStufe') || '';
 
 
 
-// === ORT + STUFE klein ausgeben ===
-const $ortUndStufe = document.querySelector('.ortundstufe');
-if ($ortUndStufe) {
-  const STUFE_LABELS = {
-    gfroerli:   'gfrörli',
-    solala:     'so lala',
-    hertimnaeh: 'hert im nä'
-  };
-  const sKey    = normalizeStufe(stufe);
-  const sLabel  = sKey ? (STUFE_LABELS[sKey] || stufe) : '—';
-  const oLabel  = (ort || '—').toLowerCase();  // ort klein ausgeben
-  $ortUndStufe.textContent = `${oLabel} · ${sLabel}`;
+    // === ORT + STUFE klein ausgeben ===
+    const $ortUndStufe = document.querySelector('.ortundstufe');
+    if ($ortUndStufe) {
+      const STUFE_LABELS = {
+        gfroerli: 'gfrörli',
+        solala: 'so lala',
+        hertimnaeh: 'hert im nä'
+      };
+      const sKey = normalizeStufe(stufe);
+      const sLabel = sKey ? (STUFE_LABELS[sKey] || stufe) : '—';
+      const oLabel = (ort || '—').toLowerCase();  // ort klein ausgeben
+      $ortUndStufe.textContent = `${oLabel} · ${sLabel}`;
 
-}
+    }
 
 
-const result = getDecisionFor(latest.temp, stufe);
-if ($spruchEl) $spruchEl.textContent = getSpruch(result);
+    const result = getDecisionFor(latest.temp, stufe);
+    if ($spruchEl) $spruchEl.textContent = getSpruch(result);
 
 
     // === TAGESMITTEL DER LETZTEN 4 TAGE ANZEIGEN ===
 
-// Hilfen: Date-Key in lokaler Zeit (YYYY-MM-DD) bauen
-function dateKeyLocal(unixSec) {
-  const d = new Date(unixSec * 1000); // lokal
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-}
+    // Hilfen: Date-Key in lokaler Zeit (YYYY-MM-DD) bauen
+    function dateKeyLocal(unixSec) {
+      const d = new Date(unixSec * 1000); // lokal
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
 
-// Tages-Durchschnitte für den Ort berechnen (Map: dateKey -> avg)
-function buildDailyAverages(rowsForOrt) {
-  const agg = new Map(); // dateKey -> {sum, count}
-  for (const r of rowsForOrt) {
-    const k = dateKeyLocal(r.ts);
-    const entry = agg.get(k) || { sum: 0, count: 0 };
-    entry.sum += r.temp;
-    entry.count += 1;
-    agg.set(k, entry);
-  }
-  const avg = new Map();
-  for (const [k, v] of agg.entries()) {
-    avg.set(k, v.count ? v.sum / v.count : null);
-  }
-  return avg; // Map(dateKey -> avgTemp)
-}
+    // Tages-Durchschnitte für den Ort berechnen (Map: dateKey -> avg)
+    function buildDailyAverages(rowsForOrt) {
+      const agg = new Map(); // dateKey -> {sum, count}
+      for (const r of rowsForOrt) {
+        const k = dateKeyLocal(r.ts);
+        const entry = agg.get(k) || { sum: 0, count: 0 };
+        entry.sum += r.temp;
+        entry.count += 1;
+        agg.set(k, entry);
+      }
+      const avg = new Map();
+      for (const [k, v] of agg.entries()) {
+        avg.set(k, v.count ? v.sum / v.count : null);
+      }
+      return avg; // Map(dateKey -> avgTemp)
+    }
 
-// Buttons selektieren (die 4 <a class="footer-button"> in der Reihenfolge -1, -2, -3, -4)
-const footerLinks = document.querySelectorAll('.footer-daten .footer-button');
+    // Buttons selektieren (die 4 <a class="footer-button"> in der Reihenfolge -1, -2, -3, -4)
+    const footerLinks = document.querySelectorAll('.footer-daten .footer-button');
 
-// Aus parsed (bereits nur dieser Ort) die Tagesmittel bauen
-const dailyAvgMap = buildDailyAverages(parsed);
+    // Aus parsed (bereits nur dieser Ort) die Tagesmittel bauen
+    const dailyAvgMap = buildDailyAverages(parsed);
 
-// Heute in lokaler Zeit
-const today = new Date();
-today.setHours(0, 0, 0, 0);
+    // Heute in lokaler Zeit
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-// Für die letzten 4 vergangenen Tage füllen
-for (let i = 1; i <= 4; i++) {
-  const d = new Date(today);
-  d.setDate(today.getDate() - i);
-  const key = dateKeyLocal(Math.floor(d.getTime() / 1000));
-  const avg = dailyAvgMap.get(key);
+    // Für die letzten 4 vergangenen Tage füllen
+    for (let i = 1; i <= 4; i++) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const key = dateKeyLocal(Math.floor(d.getTime() / 1000));
+      const avg = dailyAvgMap.get(key);
 
-  // Text setzen (— falls keine Daten)
-  const label = Number.isFinite(avg) ? `${avg.toFixed(1)}°` : '—';
-  const link = footerLinks[footerLinks.length - i];
-  if (link) {
-    link.textContent = label;
-    // optional: passender Deep-Link inkl. Ort & Datum (falls du das auf daten.html auswertest)
-    link.href = `daten.html?ort=${encodeURIComponent(ort)}&date=${key}`;
-    link.title = `Tagesmittel ${key}`;
-
-
+      // Text setzen (— falls keine Daten)
+      const label = Number.isFinite(avg) ? `${avg.toFixed(1)}°` : '—';
+      const link = footerLinks[footerLinks.length - i];
+      if (link) {
+        link.textContent = label;
+        // optional: passender Deep-Link inkl. Ort & Datum (falls du das auf daten.html auswertest)
+        link.href = `daten.html?ort=${encodeURIComponent(ort)}&date=${key}`;
+        link.title = `Tagesmittel ${key}`;
 
 
-    // Wochentag-Label über dem Button zeigen
-const btn = link.closest('button');
-if (btn) {
-  // de-CH Kürzel
-  const WD = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
-  // Date-Objekt aus key (lokal)
-  const [yy, mm, dd] = key.split('-').map(Number);
-  const dateObj = new Date(yy, mm - 1, dd); // lokale Zeit
-  const wd = WD[dateObj.getDay()];
 
-  // Element anlegen/aktualisieren
-  let labelEl = btn.previousElementSibling;
-  if (!labelEl || !labelEl.classList.contains('footer-label')) {
-    labelEl = document.createElement('div');
-    labelEl.className = 'footer-label';
-    btn.insertAdjacentElement('beforebegin', labelEl);
-  }
-  labelEl.textContent = wd;      // z. B. "Mo"
-  labelEl.title = key;           // Tooltip mit Datum "YYYY-MM-DD"
-}
-  }
-}
+        // Wochentag-Label über dem Button zeigen
+        const btn = link.closest('button');
+        if (btn) {
+          // de-CH Kürzel
+          const WD = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+
+          // Date-Objekt aus key (lokal)
+          const [yy, mm, dd] = key.split('-').map(Number);
+          const dateObj = new Date(yy, mm - 1, dd); // lokale Zeit
+          const wd = WD[dateObj.getDay()];
+
+          // Element anlegen/aktualisieren
+          let labelEl = btn.previousElementSibling;
+          if (!labelEl || !labelEl.classList.contains('footer-label')) {
+            labelEl = document.createElement('div');
+            labelEl.className = 'footer-label';
+            btn.insertAdjacentElement('beforebegin', labelEl);
+          }
+          labelEl.textContent = wd;      // z. B. "Mo"
+          labelEl.title = key;           // Tooltip mit Datum "YYYY-MM-DD"
+        }
+      }
+    }
 
 
 
@@ -182,65 +182,8 @@ if (btn) {
     console.error('Fehler beim Laden der Temperatur:', err);
     if ($tempEl) $tempEl.textContent = 'Fehler bim Lade';
   }
-  
+
 })();
-
-//   try {
-//     // const rows = await fetch(API_URL, { cache: 'no-store' }).then(r => {
-//     //   if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
-//     //   return r.json();
-//     // });
-
-//     const parsed = rows
-//       .filter(r => r.orte === ort)
-//       .map(r => ({ temp: Number(r.aare_temp), ts: tsToUnix(r.timestamp) }))
-//       .filter(r => Number.isFinite(r.temp) && Number.isFinite(r.ts));
-
-//     if (!parsed.length) {
-//       $tempEl.textContent = `keini aktuelle Date für ${ort}`;
-//       $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
-//       console.warn('No rows for selected ort. Sample:', rows.slice(0,3));
-//       return;
-//     }
-
-//     const latest = parsed.reduce((a, b) => (a.ts > b.ts ? a : b));
-//     $tempEl.textContent = `${latest.temp.toFixed(1)}°C`;
-//     $descEl.textContent = `${ort}${stufe ? ' · stufe: ' + stufe : ''}`;
-//     $spruchEl.textContent = pickSpruch(latest.temp, stufe);
-//   } catch (err) {
-//     console.error('API error:', err);
-//     $tempEl.textContent = 'Fehler bim Lade';
-//   }
-
-
-
-// // === AUSGEWÄHLTE GFRÖRLI-STUFE UND ORT ANZEIGEN ===
-// const params = new URLSearchParams(window.location.search);
-// const ortParam   = params.get('ort')   || localStorage.getItem('selectedOrt')   || '';
-// const stufeParam = params.get('stufe') || localStorage.getItem('selectedStufe') || '';
-
-// const STUFE_LABELS = {
-//   gfroerli:  'gfrörli',
-//   solala:    'so lala',
-//   hertimnae: 'hert im nä'
-// };
-
-// const $ortOut   = document.getElementById('ausgabe-ort');
-// const $stufeOut = document.getElementById('ausgabe-stufe');
-
-// if ($ortOut)   $ortOut.textContent   = ortParam   ? `Ort: ${ortParam}` : 'Kein Ort gewählt';
-// if ($stufeOut) $stufeOut.textContent = stufeParam ? `Gfrörli-Stufe: ${STUFE_LABELS[stufeParam] || stufeParam}` : 'Keine Stufe gewählt';
-
-// if (ortParam)   localStorage.setItem('selectedOrt', ortParam);
-// if (stufeParam) localStorage.setItem('selectedStufe', stufeParam);
-
-
-
-
-
-
-
-
 
 const spruecheMap = new Map();
 
@@ -320,7 +263,7 @@ spruecheMap.set("17_hertimnaeh", "unbedingt");
 
 spruecheMap.set("18_gfroerli", "gehtschon");
 spruecheMap.set("18_solala", "ja");
-spruecheMap .set("18_hertimnaeh", "unbedingt");
+spruecheMap.set("18_hertimnaeh", "unbedingt");
 
 spruecheMap.set("19_gfroerli", "ja");
 spruecheMap.set("19_solala", "unbedingt");
@@ -360,8 +303,8 @@ function normalizeStufe(raw) {
     .replace('ü', 'ue')
     .replace(/\s+/g, '');
   // auf erlaubte Keys mappen
-  if (s.startsWith('gfroerli'))  return 'gfroerli';
-  if (s.startsWith('solala'))    return 'solala';
+  if (s.startsWith('gfroerli')) return 'gfroerli';
+  if (s.startsWith('solala')) return 'solala';
   if (s.startsWith('hertimnae')) return 'hertimnaeh'; // dein Key in der Map
   return s;
 }
@@ -379,10 +322,10 @@ function getDecisionFor(tempFloat, stufeRaw) {
 
 // ---- 3) Entscheidung → finaler Spruch ----
 const RESULT_TEXT = {
-  'nein':        'wirsch zum iiszapfe!',
-  'gehtschon':   'eher no chli früsch!',
-  'ja':          'pack din schnorchel ii!',
-  'unbedingt':   'hüpf i chochtopf!'
+  'nein': 'wirsch zum iiszapfe!',
+  'gehtschon': 'eher no chli früsch!',
+  'ja': 'pack din schnorchel ii!',
+  'unbedingt': 'hüpf i chochtopf!'
 };
 
 // wenn keine stufe ausgewählt

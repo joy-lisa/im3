@@ -1,12 +1,10 @@
+/*allgemein*/
+
 :root {
-    --orange: #e8ba71;
-    /* Orange */
-    --dunkelblau: #213e60;
-    /* Dunkelblau */
-    --beige: #d8d1bd;
-    /* Beige */
-    --weiss: #f4f2ef;
-    /* Weiss */
+    --orange: #e8ba71; /* Orange */
+    --dunkelblau: #213e60; /* Dunkelblau */
+    --beige: #d8d1bd; /* Beige */
+    --weiss: #f4f2ef; /* Weiss */
 }
 
 body {
@@ -27,41 +25,13 @@ textarea {
     font-family: inherit;
 }
 
-.page-container {
+.all-elements {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* height: 100vh; */
-    width: 100%;
-    /* max-width: 400px; */
-    /* padding: 50px 16px;  */
-    /* box-sizing: border-box; */
-    text-align: center;
-    gap: 40px;
-}
-
-/* .button-container {
-    display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 2rem;
     width: 100%;
-} */
-
-.button-container a {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    text-decoration: none;
 }
-
-/* .titel {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    align-items: center;
-    line-height: 0.9;
-} */
 
 h1 {
     color: var(--dunkelblau);
@@ -74,35 +44,50 @@ h1 {
     line-height: normal;
 }
 
-/* h2 {
-    font-size: 20px;
-    color: var(--dunkelblau);
-    margin: 10px;
-} */
+h3 {
+    color: var(--weiss);
+    text-align: center;
+    font-size: 24px;
+}
 
+/*startseite = index.html*/
 
-/*index.html*/
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    gap: 40px;
+}
 
-/*class mit h2*/
 .subtitle {
     color: var(--dunkelblau);
     font-size: 40px;
-    /* responsive Schriftgröße */
     font-weight: 700;
-    /* text-align: center; */
-    /* margin: 2rem 0; */
     line-height: 1.3;
     margin: 0;
-
-    /* max-width: 90%; */
 }
 
-.all-elements {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    width: 100%;
+.yes-button {
+    width: 338px;
+    height: 97px;
+    border-radius: 20px;
+    border: 4px solid var(--orange, #E8BA71);
+    background-color: var(--weiss, #F4F2EF);
+    box-shadow: 0 0 13px 4px #E8BA71 inset;
+    color: var(--light-orange, #E8BA71);
+    font-size: 64px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    bottom: 40px;
+    z-index: 100;
+}
+
+.yes-button:hover {
+    background-color: var(--orange);
+    color: var(--weiss);
 }
 
 /*decision.html*/
@@ -110,90 +95,63 @@ h1 {
 .decision-body {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
-    /* height: 100vh; */
-    /* width: 100%; */
-    /* max-width: 400px; */
-    /* padding: 50px 16px;  */
-    /* box-sizing: border-box; */
-    /* text-align: center; */
     gap: 60px;
 }
-    
-
-/* .decision-wrapper {
-    /* justify-content: space-between; */
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 20px;
-    box-sizing: border-box;
-    padding: 100px; 
-} */
 
 h2.titelentscheid {
     color: var(--dunkelblau);
-    text-align: center;
-    font-family: 'Aptly', sans-serif;
     font-size: 40px;
-    font-weight: 700;
     margin: 0 auto 40px;
     position: relative;
 }
 
-    /* Container für die beiden Divs */
-    .entscheidungscontainer {
-        display: flex;
-        justify-content: space-between;        /* align-items: flex-start; */
-        gap: 60px;
-        flex-wrap: wrap;
-        padding: 0 1rem;
-        box-sizing: border-box;
-        text-align: center;
-    }
+.entscheidungscontainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    text-align: center;
+}
 
-    /* Jedes Element soll schön in der Reihe stehen */
-    .entscheidungscontainer > div {
-        min-width: 250px;
-    }
-
-    /* Zentriere den Button auch im Flow */
-    .findsuse {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
+.entscheidungscontainer>div {
+    min-width: 250px;
+}
 
 .select {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* align-items: center;
-    justify-content: center; */
 }
 
 .wohere {
     color: var(--dunkelblau);
-    /* text-align: center; */
-    /* font-family: 'Aptly', sans-serif; */
     font-size: 40px;
-    /* font-style: normal; */
     font-weight: 700;
-    /* line-height: normal; */
+}
+
+/*dropdown*/
+#orte {
+    width: 338px;
+    height: 56px;
+    flex-shrink: 0;
+    margin: 20px 0;
+    border-radius: 15px;
+    border: 4px solid var(--orange);
+    background: transparent;
+    box-shadow: 0 0 13px 4px var(--orange) inset;
+    color: var(--orange);
+    font-size: 24px;
+    font-weight: 700;
+    padding-left: 21px;
 }
 
 .stufe {
     color: var(--dunkelblau);
-    /* text-align: center; */
-    /* font-family: 'Aptly', sans-serif; */
     font-size: 40px;
-    /* font-style: normal; */
     font-weight: 700;
-    /* line-height: normal; */
     margin: 0px;
 }
 
@@ -205,53 +163,89 @@ h2.titelentscheid {
     margin-top: 20px;
 }
 
-.date-label {
-    margin-top: 20px;
-    font-size: 18px;
+.auswahlbutton {
+    width: 111px;
+    height: 113px;
+    border-radius: 20px;
+    border: 4px solid var(--orange, #E8BA71);
+    background: var(--weiss, #F4F2EF);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0 13px 4px #E8BA71 inset;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--orange);
+}
+
+.auswahlbutton:hover {
+    background: var(--orange);
+    color: var(--weiss);
+}
+
+.auswahlbutton.active {
+    background: var(--orange);
+    color: var(--weiss);
+    outline: 2px solid transparent;
+    transform: translateY(-1px);
+}
+
+.findsuse {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.findsuse-button {
+    width: 338px;
+    height: 97px;
+    border-radius: 20px;
+    border: 4px solid var(--orange, #E8BA71);
+    background-color: var(--weiss, #F4F2EF);
+    box-shadow: 0 0 13px 4px #E8BA71 inset;
+    color: var(--light-orange, #E8BA71);
+    font-size: 64px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    bottom: 40px;
+}
+
+.findsuse-button:hover {
+    background: var(--orange);
+    color: var(--weiss);
+}
+
+.zruegg-button {
+    width: 137px;
+    height: 51px;
+    border-radius: 20px;
+    border: 4px solid var(--dunkelblau);
+    background: var(--weiss, #F4F2EF);
+    cursor: pointer;
+    box-shadow: 0 0 13px 4px var(--dunkelblau) inset;
     color: var(--dunkelblau);
-
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    z-index: 100;
+    transition: all 0.2s ease-in-out;
 }
 
-input[type="date"] {
-    margin-top: 10px;
-    padding-left: 21px;
-    padding-right: 21px;
-    font-size: 16px;
-    border: 2px solid var(--dunkelblau);
-    border-radius: 5px;
+.zruegg-button:hover {
+    background-color: var(--dunkelblau);
+    color: var(--weiss);
 }
 
-    /*dropdown*/
-
-    #orte {
-        width: 338px;
-        height: 56px;
-        flex-shrink: 0;
-        margin: 20px 0;
-        border-radius: 15px;
-        border: 4px solid var(--orange);
-        background: transparent;
-
-        /* shadow button */
-        box-shadow: 0 0 13px 4px var(--orange) inset;
-
-        /*font*/
-        color: var(--orange);
-        font-family: Aptly;
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        padding-left: 21px;
-    }
-
-/*results.html*/
+/* result.html */
 
 .result-body {
     background-color: var(--orange) !important;
     min-height: 100vh;
-    /* display: flex; */
-    /* overflow: hidden; */
+    display: flex;
     height: 100%;
 }
 
@@ -260,10 +254,7 @@ input[type="date"] {
     left: 5%;
     top: 300px;
     transform: translateX(-50%) scaleX(-1);
-    /* width: 50%; */
     max-width: 400px;
-    /* height: auto; */
-    /* z-index: 0; */
 }
 
 .bubbler2 {
@@ -271,11 +262,8 @@ input[type="date"] {
     right: 5%;
     top: 50px;
     transform: translateX(50%);
-    /* width: 50%; */
     max-width: 600px;
-    /* z-index: 0; */
 }
-
 
 .result-wrapper {
     display: flex;
@@ -288,286 +276,74 @@ input[type="date"] {
     margin-top: -150px;
 }
 
-/* .resultat-angaben { */
-    /* display: flex; */
-        /* justify-content: center; */
-        /* align-items: center;
-        flex-direction: column;
-        gap: 20px; */
-        /* flex-wrap: wrap; */
-        /* width: 100%; */
-        /* max-width: 1200px;
-        padding: 0 1rem;
-        box-sizing: border-box;
-        text-align: center;
-} */
-
-.result-footer {
-    background-color: var(--weiss);
-    /* width: relative; */
-    bottom: 0px;
-    padding: 50px 20px 20px 20px;
-    text-align: center;
-    border-radius: 75px 75px 0px 0px;
-
-    /* Positionierung unten am Bildschirm */
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-
-}
-
-.spruch-container {
-    display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-    /* width: 100%; */
-}
-
-.spruch {
-    color: var(--dunkelblau);
-    text-align: center;
-    font-family: Aptly;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 700;
-}
-
 .subtitle-result {
     color: var(--weiss);
-    text-align: center;
-    font-family: 'Aptly', sans-serif;
     font-size: 40px;
-    font-weight: 700;
     margin: 0 auto 20px;
-    position: relative;
 }
 
 .temperatur {
     color: var(--weiss);
     text-align: center;
-    /*font-family: Aptly; */
-    /* font-size: 135px; */
-    /* font-style: normal;
-    font-weight: 700;
-    line-height: normal; */
 }
 
-footer {
+.spruch-container {
+    display: flex;
+}
+
+.spruch {
+    color: var(--dunkelblau);
+    font-size: 40px;
+}
+
+.result-footer {
+    background-color: var(--weiss);
+    bottom: 0px;
+    padding: 50px 20px 20px 20px;
+    text-align: center;
+    border-radius: 75px 75px 0px 0px;
     position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
 
 .footer-titel {
     color: var(--weiss);
-    /* font-family: Aptly; */
     font-size: 40px;
-    /* font-style: normal; */
     font-weight: 700;
-    /* text-align: center; */
     margin-top: -100px;
     margin-bottom: 20px;
 }
 
 .footer-daten {
     display: grid;
-    grid-template-rows: auto auto;   /* Zeile 1: Label, Zeile 2: Button */
-    grid-auto-flow: column;           /* erst nach unten, dann neue Spalte */
-    grid-auto-columns: max-content;   /* Spalten so breit wie nötig */
-    gap: 6px 16px;                    /* Abstand: Zeilen x Spalten */
-    justify-content: center;          /* Gesamtblock zentrieren */
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    gap: 6px 16px;
+    justify-content: center;
     align-items: start;
     margin-top: 30px;
 }
-#myAareChart {
-    padding: 20px;
-}
 
-/* Optional, etwas Luft unterm Label */
 .footer-label {
     text-align: center;
     margin-bottom: 0.2rem;
 }
 
-h3 {
-    color: var(--weiss);
-    text-align: center;
-    /* font-family: Aptly; */
-    font-size: 24px;
-    /* font-style: normal;
-    font-weight: 700;
-    line-height: normal; */
-}
-
-/* daten.html */
-
-.daten-body {
-    background-color: var(--dunkelblau) !important;
-    display: grid !important;
-    height: 100%;
-}
-
-.auswahlcontainer_daten {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 100px;
-}
-
-.zruegg-button-daten {
-    width: 137px;
-    height: 51px;
-    border-radius: 20px;
-    border: 4px solid var(--orange);
-    background: var(--dunkelblau);
-
-    /* shadow button */
-    box-shadow: 0 0 13px 4px var(--orange) inset;
-
-    /*font*/
-    color: var(--orange);
-    text-align: center;
-    font-family: Aptly;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-
-    /* Positionierung oben links */
-    position: relative;
-    /* bleibt beim Scrollen sichtbar */
-    top: 50px;
-    /* Abstand vom oberen Rand */
-    left: 50px;
-    /* Abstand vom linken Rand */
-    z-index: 100;
-    /* damit nichts drüberliegt */
-}
-
-.date {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.wohere_daten {
-    color: var(--orange);
-    text-align: center;
-    font-family: Aptly;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
-.date-label {
-    color: var(--orange);
-    text-align: center;
-    font-family: Aptly;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    margin: 0px;
-}
-
-.chart-title {
-    color: var(--orange);
-    text-align: center;
-    font-family: Aptly;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    margin-bottom: 10px;
-    justify-content: space-between;
-}
-
-/*dropdown*/
-
-    #orte_daten {
-        width: 338px;
-        height: 82px;
-        flex-shrink: 0;
-        margin: 20px 0;
-        border-radius: 15px;
-        border: 4px solid var(--orange);
-        background: var(--dunkelblau);
-
-        /* shadow button */
-        box-shadow: 0 0 13px 4px var(--orange) inset;
-
-        /*font*/
-        color: var(--orange);
-        font-family: Aptly;
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        padding-left: 21px;
-    }
-
-    /* date-label */
-    #date {
-        width: 338px;
-        height: 56px;
-        flex-shrink: 0;
-        margin: 20px 0;
-        border-radius: 15px;
-        border: 4px solid var(--orange);
-        background: var(--dunkelblau);
-
-        /* shadow button */
-        box-shadow: 0 0 13px 4px var(--orange) inset;
-
-        /*font*/
-        color: var(--orange);
-        font-family: Aptly;
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        /* padding-left: 21px; */
-    }
-
-    #date,
-#orte_daten {
-  box-sizing: border-box;
-  width: 338px;
-}
-
-
-
-/*buttons*/
-
-.zruegg-button {
-    width: 137px;
-    height: 51px;
+.ergebnis-button {
+    width: 122px;
+    height: 87px;
     border-radius: 20px;
     border: 4px solid var(--dunkelblau);
-    background: var(--weiss, #F4F2EF);
-
-    /* shadow button */
+    transition: all 0.2s ease-in-out;
     box-shadow: 0 0 13px 4px var(--dunkelblau) inset;
+}
 
-    /*font*/
-    color: var(--dunkelblau);
-    text-align: center;
-    font-family: Aptly;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-
-    /* Positionierung oben links */
-    position: fixed;
-    /* bleibt beim Scrollen sichtbar */
-    top: 50px;
-    /* Abstand vom oberen Rand */
-    left: 50px;
-    /* Abstand vom linken Rand */
-    z-index: 100;
-    /* damit nichts drüberliegt */
+.ergebnis-button:hover {
+    background-color: var(--dunkelblau);
+    color: var(--weiss);
 }
 
 .zruegg-button-result {
@@ -576,186 +352,170 @@ h3 {
     border-radius: 20px;
     border: 4px solid var(--dunkelblau);
     background: var(--orange);
-
-    /* shadow button */
+    cursor: pointer;
     box-shadow: 0 0 13px 4px var(--dunkelblau) inset;
-
-    /*font*/
     color: var(--dunkelblau);
-    text-align: center;
-    font-family: Aptly;
     font-size: 15px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
-
-    /* Positionierung oben links */
     position: fixed;
-    /* bleibt beim Scrollen sichtbar */
     top: 50px;
-    /* Abstand vom oberen Rand */
     left: 50px;
-    /* Abstand vom linken Rand */
     z-index: 100;
-    /* damit nichts drüberliegt */
-}
-
-/* button index.html */
-
-.yes-button {
-    width: 338px;
-    height: 97px;
-    border-radius: 20px;
-    border: 4px solid var(--orange, #E8BA71);
-    background-color: var(--weiss, #F4F2EF);
-    box-shadow: 0 0 13px 4px #E8BA71 inset;
-    color: var(--light-orange, #E8BA71);
-    /* text-align: center; */
-    /* font-family: Aptly; */
-    font-size: 64px;
-    /* font-style: normal; */
-    font-weight: 700;
-    /* line-height: normal; */
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
-
-    /* position: fixed; */
-  bottom: 40px;        /* Abstand vom unteren Rand */
-  /* left: 50%; */
-  /* transform: translateX(-50%); zentriert horizontal */
-  z-index: 100;
-    
-
-    /*
-    border-radius: 20px;
-    border: 4px solid var(--orange, #E8BA71);
-    background: var(--weiss, #F4F2EF);
-    flex-shrink: 0;
-
-    /* shadow button */
-    /* box-shadow: 0 0 13px 4px #E8BA71 inset; */
-
-    /*font*/
-    /* font-size: 64px;
-    font-weight: 700;
-    font-style: normal;
-    line-height: normal;
-    color: var(--orange); */
-
-    /* Positionierung unten am Bildschirm */
-    /* position: fixed;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100; */
 }
 
-.yes-button:hover {
-    background-color: var(--orange);
+.zruegg-button-result:hover {
+    background-color: var(--dunkelblau);
     color: var(--weiss);
 }
 
-/* button decision.html */
+/*daten.html*/
 
-.findsuse-button {
-    width: 338px;
-    height: 97px;
-    border-radius: 20px;
-    border: 4px solid var(--orange, #E8BA71);
-    background-color: var(--weiss, #F4F2EF);
-    box-shadow: 0 0 13px 4px #E8BA71 inset;
-    color: var(--light-orange, #E8BA71);
-    /* text-align: center; */
-    /* font-family: Aptly; */
-    font-size: 64px;
-    /* font-style: normal; */
-    font-weight: 700;
-    /* line-height: normal; */
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-
-  /* position: fixed; */
-  bottom: 40px;        /* Abstand vom unteren Rand */
-  /* left: 50%;
-  transform: translateX(-50%); zentriert horizontal */
-  /* z-index: 100; */
+body.daten-body {
+    background-color: var(--dunkelblau) !important;
+    height: 100%;
 }
 
-
-.findsuse-button:hover {
-  background: var(--orange);
-  color: var(--weiss);
+.auswahlcontainer_daten {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin-top: 100px;
+    justify-content: center;
 }
 
-.auswahlbutton {
-    width: 111px;
-    height: 113px;
-    border-radius: 20px;
-    border: 4px solid var(--orange, #E8BA71);
-    background: var(--weiss, #F4F2EF);
-
-    /* shadow button */
-    box-shadow: 0 0 13px 4px #E8BA71 inset;
-
-    /*font*/
-    font-size: 19px;
-    font-weight: 700;
-    /* font-style: normal; */
-    /* line-height: normal; */
+.wohere_daten {
     color: var(--orange);
-
+    font-size: 40px;
+    font-weight: 700;
 }
 
-.auswahlbutton.active {
-    background: var(--orange);
-    color: var(--weiss);
-    outline: 2px solid transparent;
-    transform: translateY(-1px);
-    /* border-color: #007bff; */
-    /* box-shadow: 0 0 8px rgba(0, 123, 255, 0.4); */
+.date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* button results.html */
+.date-label {
+    color: var(--orange);
+    font-size: 40px;
+    font-weight: 700;
+    margin: 0px;
+}
 
-.ergebnis-button {
-    width: 122px;
-    height: 87px;
+#date {
+    height: 56px;
+    flex-shrink: 0;
+    margin: 20px 0;
+    border-radius: 15px;
+    border: 4px solid var(--orange);
+    background: var(--dunkelblau);
+    box-shadow: 0 0 13px 4px var(--orange) inset;
+    color: var(--orange);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+#date,
+#orte_daten {
+    box-sizing: border-box;
+    width: 338px;
+}
+
+.chart-container {
+    width: 100%;
+}
+
+.charttitel {
+    color: var(--orange);
+    text-align: center;
+    font-size: 40px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+}
+
+#myAareChart {
+    width: 100% !important;
+    padding: 20px
+}
+
+.zruegg-button-daten {
+    width: 137px;
+    height: 51px;
     border-radius: 20px;
-    border: 4px solid var(--dunkelblau);
-    /* background: var(--weiss, #F4F2EF); */
-
-    /* shadow button */
-    box-shadow: 0 0 13px 4px var(--dunkelblau) inset;
+    border: 4px solid var(--orange);
+    background: var(--dunkelblau);
+    box-shadow: 0 0 13px 4px var(--orange) inset;
+    color: var(--orange);
+    font-size: 15px;
+    font-weight: 700;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    z-index: 100;
 }
+
 
 .footer-button {
     /*font*/
     color: var(--dunkelblau);
     text-decoration: none;
-    text-align: center;
-    font-family: Aptly;
     font-size: 36px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
+    cursor: pointer;
 }
 
-@media (max-width: 460px) {
+.footer-button:hover {
+    color: var(--weiss);
+}
 
-    /* body.daten-body {
-        overflow-x: hidden;
-    } */
+
+
+
+
+
+
+
+
+
+
+/* Optional, etwas Luft unterm Label */
+
+
+
+
+.date-label {
+    margin-top: 20px;
+    font-size: 18px;
+    color: var(--dunkelblau);
+}
+
+input[type="date"] {
+    margin-top: 10px;
+    padding-left: 21px;
+    padding-right: 21px;
+    font-size: 16px;
+    border: 2px solid var(--dunkelblau);
+    border-radius: 5px;
+}
+
+
+
+
+
+/* daten.html */
+
+
+
+@media (max-width: 420px) {
 
     .chart-inner {
         overflow-x: auto;
         width: 100%;
         min-width: 100%;
-        }
+    }
 
-    /* .index-body {
-        overflow: hidden;
-    } */
-    
     h1 {
         font-size: 140px;
     }
@@ -764,25 +524,13 @@ h3 {
         gap: -10px;
         padding-top: 40px;
     }
+
     .subtitle {
         font-size: 26px;
-        /* height: 300px; */
-    }   
+    }
 
     .page-container {
         justify-content: space-between;
-        padding: 3vh 1rem;
-    }
-
-    .yes-button {
-        color: var(--light-orange, #E8BA71);
-        text-align: center;
-        font-family: Aptly;
-        font-size: 64px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        bottom: 20px;
     }
 
     h2.titelentscheid {
@@ -794,10 +542,6 @@ h3 {
         margin: 0px;
     }
 
-    /* .decision-wrapper {
-        padding: 20px;
-    } */
-
     .entscheidungscontainer {
         justify-content: center;
         gap: 10px;
@@ -807,17 +551,11 @@ h3 {
         bottom: 20px;
     }
 
-/* .de-body {
-    overflow: hidden;
-} */
-
     .decision-body {
-        /* padding: 3vh 1rem; */
         gap: 30px;
-        /* justify-content: flex-start; */
         display: flex;
-        vertical-align: middle;  
-        padding: 100px 0px;    
+        vertical-align: middle;
+        padding: 100px 0px;
     }
 
     .wohere {
@@ -842,7 +580,7 @@ h3 {
         background: var(--weiss);
         box-shadow: 0 0 9.5px 1px var(--dunkelblau) inset;
 
-         /* Positionierung oben links */
+        /* Positionierung oben links */
         position: absolute;
         /* bleibt beim Scrollen sichtbar */
         top: 20px;
@@ -862,7 +600,7 @@ h3 {
         background: var(--dunkelblau);
         box-shadow: 0 0 9.5px 1px var(--orange) inset;
 
-         /* Positionierung oben links */
+        /* Positionierung oben links */
         position: absolute;
         /* bleibt beim Scrollen sichtbar */
         top: 20px;
@@ -882,7 +620,7 @@ h3 {
         background: var(--orange);
         box-shadow: 0 0 9.5px 1px var(--dunkelblau) inset;
 
-         /* Positionierung oben links */
+        /* Positionierung oben links */
         position: absolute;
         /* bleibt beim Scrollen sichtbar */
         top: 20px;
@@ -908,84 +646,109 @@ h3 {
         margin-top: -80px;
         margin-bottom: 10px;
     }
+
     .result-footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 40px 20px 20px 20px;
-  }
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 40px 20px 20px 20px;
+    }
 
-  .footer-daten {
-    display: grid;
-    grid-template-rows: auto auto;   /* Zeile 1: Label, Zeile 2: Button */
-    grid-auto-flow: column;           /* erst nach unten, dann neue Spalte */
-    grid-auto-columns: max-content;   /* Spalten so breit wie nötig */
-    gap: 6px 16px;                    /* Abstand: Zeilen x Spalten */
-    justify-content: center;          /* Gesamtblock zentrieren */
-    align-items: start;
-    margin-top: 30px;
-}
+    .footer-daten {
+        display: grid;
+        grid-template-rows: auto auto;
+        /* Zeile 1: Label, Zeile 2: Button */
+        grid-auto-flow: column;
+        /* erst nach unten, dann neue Spalte */
+        grid-auto-columns: max-content;
+        /* Spalten so breit wie nötig */
+        gap: 6px 16px;
+        /* Abstand: Zeilen x Spalten */
+        justify-content: center;
+        /* Gesamtblock zentrieren */
+        align-items: start;
+        margin-top: 30px;
+    }
 
-/* Optional, etwas Luft unterm Label */
-.footer-label {
-    /* text-align: center; */
-    margin-bottom: 0.2rem;
-    color: var(--dunkelblau);
-}
+    /* Optional, etwas Luft unterm Label */
+    .footer-label {
+        margin-bottom: 0.2rem;
+        color: var(--dunkelblau);
+    }
 
-  .footer-daten::-webkit-scrollbar {
-    display: none; /* Scrollbar ausblenden */
-  }
+    .footer-daten::-webkit-scrollbar {
+        display: none;
+        /* Scrollbar ausblenden */
+    }
 
-  .ergebnis-button {
-    width: 84px;                /* feste Breite */
-    height: 87px;               /* feste Höhe */
-    flex-shrink: 0;             /* verhindert, dass Buttons kleiner werden */
-    font-size: 0.7rem;          /* etwas kleinere Schrift */
-    padding: 0.3rem;
-    border-radius: 8px;
-    border: 2px solid #000;
-    background: transparent;
-    white-space: nowrap;
-    text-align: center;
-    border-radius: 34px;
-  }
+    .ergebnis-button {
+        width: 84px;
+        /* feste Breite */
+        height: 87px;
+        /* feste Höhe */
+        flex-shrink: 0;
+        /* verhindert, dass Buttons kleiner werden */
+        font-size: 0.7rem;
+        /* etwas kleinere Schrift */
+        padding: 0.3rem;
+        border-radius: 8px;
+        border: 2px solid #000;
+        background: transparent;
+        white-space: nowrap;
+        text-align: center;
+        border-radius: 34px;
+    }
 
-  .footer-button {
-    display: inline-block;
-  width: auto;
-  height: auto;
-  text-decoration: none;
-  color: var(--dark-blue, #213E60);
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1; 
-  }
+    .footer-button {
+        display: inline-block;
+        width: auto;
+        height: auto;
+        text-decoration: none;
+        color: var(--dark-blue, #213E60);
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1;
+    }
 
-  .auswahlcontainer_daten {
-    position: absolute;
-    top: 20px; 
-    align-items: center;
-    justify-content: center; /* <— wichtig! */
-    left: 0;
-    right: 0;
-  }
-    
-/* .chart-container {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    margin-top: 20px;
-}
+    .auswahlcontainer_daten {
+        position: absolute;
+        top: 20px;
+        align-items: center;
+        justify-content: center;
+        /* <— wichtig! */
+        left: 0;
+        right: 0;
+    }
 
-.chart-inner {
-    width: 900px;
-    height: 400px;
-} */
+    .chart-container {
+        width: 100%;
+        max-width: 100%;
+    }
 
-#myAareChart {
-    width: 100% !important;
-    height: 100% !important;
-}
+    .chart-inner {
+        overflow-x: auto;
+        overflow-y: hidden;
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .chart-inner canvas {
+        flex-shrink: 0;
+        width: 100%;
+        max-width: 1280px;
+        min-width: 1280px;
+        height: 600px;
+        display: block;
+    }
+
+    .chart-inner>* {
+        min-width: 1280px;
+        height: 600px;
+    }
+
+    #myAareChart {
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0px, 10px;
+    }
 }

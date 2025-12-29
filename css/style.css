@@ -1,10 +1,14 @@
 /*allgemein*/
 
 :root {
-    --orange: #e8ba71; /* Orange */
-    --dunkelblau: #213e60; /* Dunkelblau */
-    --beige: #d8d1bd; /* Beige */
-    --weiss: #f4f2ef; /* Weiss */
+    --orange: #e8ba71;
+    /* Orange */
+    --dunkelblau: #213e60;
+    /* Dunkelblau */
+    --beige: #d8d1bd;
+    /* Beige */
+    --weiss: #f4f2ef;
+    /* Weiss */
 }
 
 body {
@@ -146,6 +150,7 @@ h2.titelentscheid {
     font-size: 24px;
     font-weight: 700;
     padding-left: 21px;
+    cursor: pointer;
 }
 
 .stufe {
@@ -369,6 +374,18 @@ h2.titelentscheid {
     color: var(--weiss);
 }
 
+.footer-button {
+    color: var(--dunkelblau);
+    text-decoration: none;
+    font-size: 36px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.footer-button:hover {
+    color: var(--weiss);
+}
+
 /*daten.html*/
 
 body.daten-body {
@@ -414,6 +431,7 @@ body.daten-body {
     color: var(--orange);
     font-size: 24px;
     font-weight: 700;
+    cursor: pointer;
 }
 
 #date,
@@ -456,106 +474,44 @@ body.daten-body {
     z-index: 100;
 }
 
-
-.footer-button {
-    /*font*/
-    color: var(--dunkelblau);
-    text-decoration: none;
-    font-size: 36px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.footer-button:hover {
-    color: var(--weiss);
-}
-
-
-
-
-
-
-
-
-
-
-
-/* Optional, etwas Luft unterm Label */
-
-
-
-
-.date-label {
-    margin-top: 20px;
-    font-size: 18px;
-    color: var(--dunkelblau);
-}
-
 input[type="date"] {
-    margin-top: 10px;
     padding-left: 21px;
     padding-right: 21px;
-    font-size: 16px;
-    border: 2px solid var(--dunkelblau);
-    border-radius: 5px;
 }
-
-
-
-
-
-/* daten.html */
-
-
 
 @media (max-width: 420px) {
 
-    .chart-inner {
-        overflow-x: auto;
-        width: 100%;
-        min-width: 100%;
+    /*index.html*/
+
+    .page-container {
+        justify-content: space-between;
     }
 
     h1 {
         font-size: 140px;
     }
 
-    .titel {
-        gap: -10px;
-        padding-top: 40px;
-    }
-
     .subtitle {
         font-size: 26px;
     }
 
-    .page-container {
-        justify-content: space-between;
+    /*decision.html*/
+
+    .decision-body {
+        gap: 30px;
+        vertical-align: middle;
+        padding: 100px 0px;
     }
 
     h2.titelentscheid {
-        padding-top: -40px;
         font-size: 28px;
-    }
-
-    h2.spruch {
-        margin: 0px;
+        justify-content: center;
+        text-align: center;
     }
 
     .entscheidungscontainer {
         justify-content: center;
         gap: 10px;
-    }
-
-    .findsuse-button {
-        bottom: 20px;
-    }
-
-    .decision-body {
-        gap: 30px;
-        display: flex;
-        vertical-align: middle;
-        padding: 100px 0px;
     }
 
     .wohere {
@@ -579,36 +535,26 @@ input[type="date"] {
         border: 3px solid var(--dunkelblau);
         background: var(--weiss);
         box-shadow: 0 0 9.5px 1px var(--dunkelblau) inset;
-
-        /* Positionierung oben links */
         position: absolute;
-        /* bleibt beim Scrollen sichtbar */
         top: 20px;
-        /* Abstand vom oberen Rand */
         left: 20px;
-        /* Abstand vom linken Rand */
         z-index: 100;
-        /* damit nichts drüberliegt */
     }
 
-    .zruegg-button-daten {
-        width: 49px;
-        height: 46px;
-        font-size: 15px;
-        border-radius: 15px;
-        border: 3px solid var(--orange);
-        background: var(--dunkelblau);
-        box-shadow: 0 0 9.5px 1px var(--orange) inset;
+    /*result.html*/
 
-        /* Positionierung oben links */
-        position: absolute;
-        /* bleibt beim Scrollen sichtbar */
-        top: 20px;
-        /* Abstand vom oberen Rand */
-        left: 20px;
-        /* Abstand vom linken Rand */
-        z-index: 100;
-        /* damit nichts drüberliegt */
+    .bubbler1 {
+        display: none;
+    }
+
+    .bubbler2 {
+        top: 230px;
+        width: 250px;
+        rotate: -11deg;
+    }
+
+    h2.spruch {
+        margin: 0px;
     }
 
     .zruegg-button-result {
@@ -619,32 +565,10 @@ input[type="date"] {
         border: 3px solid var(--dunkelblau);
         background: var(--orange);
         box-shadow: 0 0 9.5px 1px var(--dunkelblau) inset;
-
-        /* Positionierung oben links */
         position: absolute;
-        /* bleibt beim Scrollen sichtbar */
         top: 20px;
-        /* Abstand vom oberen Rand */
         left: 20px;
-        /* Abstand vom linken Rand */
         z-index: 100;
-        /* damit nichts drüberliegt */
-    }
-
-    .bubbler1 {
-        display: none;
-    }
-
-    .bubbler2 {
-        top: 274px;
-        width: 250px;
-        rotate: -11deg;
-    }
-
-    .footer-titel {
-        font-size: 24px;
-        margin-top: -80px;
-        margin-bottom: 10px;
     }
 
     .result-footer {
@@ -654,42 +578,32 @@ input[type="date"] {
         padding: 40px 20px 20px 20px;
     }
 
+    .footer-titel {
+        font-size: 24px;
+        margin-top: -80px;
+        margin-bottom: 10px;
+    }
+
     .footer-daten {
         display: grid;
         grid-template-rows: auto auto;
-        /* Zeile 1: Label, Zeile 2: Button */
         grid-auto-flow: column;
-        /* erst nach unten, dann neue Spalte */
         grid-auto-columns: max-content;
-        /* Spalten so breit wie nötig */
         gap: 6px 16px;
-        /* Abstand: Zeilen x Spalten */
         justify-content: center;
-        /* Gesamtblock zentrieren */
         align-items: start;
         margin-top: 30px;
     }
 
-    /* Optional, etwas Luft unterm Label */
-    .footer-label {
-        margin-bottom: 0.2rem;
-        color: var(--dunkelblau);
-    }
-
     .footer-daten::-webkit-scrollbar {
         display: none;
-        /* Scrollbar ausblenden */
     }
 
     .ergebnis-button {
         width: 84px;
-        /* feste Breite */
         height: 87px;
-        /* feste Höhe */
         flex-shrink: 0;
-        /* verhindert, dass Buttons kleiner werden */
         font-size: 0.7rem;
-        /* etwas kleinere Schrift */
         padding: 0.3rem;
         border-radius: 8px;
         border: 2px solid #000;
@@ -710,12 +624,13 @@ input[type="date"] {
         line-height: 1;
     }
 
+    /*daten.html*/
+
     .auswahlcontainer_daten {
         position: absolute;
         top: 20px;
         align-items: center;
         justify-content: center;
-        /* <— wichtig! */
         left: 0;
         right: 0;
     }
@@ -750,5 +665,19 @@ input[type="date"] {
         width: 100% !important;
         height: 100% !important;
         padding: 0px, 10px;
+    }
+
+    .zruegg-button-daten {
+        width: 49px;
+        height: 46px;
+        font-size: 15px;
+        border-radius: 15px;
+        border: 3px solid var(--orange);
+        background: var(--dunkelblau);
+        box-shadow: 0 0 9.5px 1px var(--orange) inset;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
     }
 }
